@@ -17,6 +17,10 @@
     "url": "https://github.com/zaclem01/voting-app/issues"
   },
   "homepage": "https://github.com/zaclem01/voting-app#readme",
+  "babel": {
+    "presets": ["es2015", "react"],
+    "plugins": ["transform-object-rest-spread"]
+  },
   "dependencies": {
     "express": "^4.13.4",
     "jquery": "^3.0.0",
@@ -27,15 +31,18 @@
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
     "react-redux": "^4.4.5",
+    "react-router": "^2.4.1",
     "react-router-redux": "^4.0.5",
     "react-tap-event-plugin": "^1.0.0",
     "redux": "^3.5.2"
   },
   "devDependencies": {
     "babel-cli": "^6.10.1",
+    "babel-core": "^6.9.1",
     "babel-plugin-transform-object-rest-spread": "^6.8.0",
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-react": "^6.5.0",
+    "babel-register": "^6.9.0",
     "babelify": "^7.3.0",
     "browserify": "^13.0.1",
     "gulp": "^3.9.1",
@@ -43,6 +50,7 @@
     "gulp-sass": "^2.3.2",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-util": "^3.0.7",
+    "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.7.0"
   }
