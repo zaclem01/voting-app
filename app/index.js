@@ -12,7 +12,7 @@ import routes from './routes';
 //const history;
 
 ReactDOM.render(
-	<Router>
+	<Router history={browserHistory}>
 		{routes}
 	</Router>,
 	document.getElementById('app')

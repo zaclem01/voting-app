@@ -21,6 +21,25 @@ app.set('view engine', 'pug');
 app.use(logger('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
 
+let state = {
+	polls: [
+		{id: 0, date: 1, creator: 'Zac', name: 'Who is best?', options: {me: 4, you: 2}},
+		{id: 1, date: 2, creator: 'Zac', name: 'Who is worst?', options: {me: 2, you: 1}},
+		{id: 2, date: 3, creator: 'Zac', name: 'Who is mediocre?', options: {me: 1, you: 3}},
+		{id: 3, date: 4, creator: 'Malisa', name: 'Whyyyyyy?', options: {dunno: 2, because: 3}}
+	]
+};
+
+// API endpoints must come before Router matching
+app.get('/api/polls', (req, res) => {
+	res.json(state);
+});
+
+app.get('/api/polls/:id', (req, res) => {
+	let pollMatch = state.polls.filter((poll) => poll.id == req.params.id);
+	res.json(pollMatch);
+});
+
 // Server-side rendering of components
 app.use((req, res) => {
 	Router.match({ routes: routes.default, location: req.url }, (err, redirectLocation, renderProps) => {
