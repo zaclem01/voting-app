@@ -18,3 +18,20 @@ $small-screen-width: 992px;
 		}
 	}
 }
+
+.rd3-chart-title {
+	font-weight: bold;
+}
+
+.rd3-chart {
+	display: block;
+	border-radius: 5px;
+	background: #DBDBDB;
+	margin: 0 auto;
+}
+
+.chart-wrapper {
+	height: 400px;
+	width: 100%;
+	padding: 10px;
+}

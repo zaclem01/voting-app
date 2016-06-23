@@ -33,16 +33,22 @@ class PollsList extends React.Component {
     			return this.props.polls.sort((prev, curr) => {
     				let prevOptions = prev.options;
     				let currOptions = curr.options;
-    				let prevVotes = Object.keys(prevOptions)
-    					.map(key => prevOptions[key])
-    					.reduce((prevVal, currVal) => {
-    						return prevVal + currVal;
-    					});
-    				let currVotes = Object.keys(currOptions)
-    					.map(key => currOptions[key])
-    					.reduce((prevVal, currVal) => {
-    						return prevVal + currVal;
-    					});
+    				let prevVotes = prevOptions.reduce((prev, curr) => {
+    					return prev.value + curr.value;
+    				});
+    				let currVotes = currOptions.reduce((prev, curr) => {
+    					return prev.value + curr.value;
+    				});
+    				// let prevVotes = Object.keys(prevOptions)
+    				// 	.map(key => prevOptions[key])
+    				// 	.reduce((prevVal, currVal) => {
+    				// 		return prevVal + currVal;
+    				// 	});
+    				// let currVotes = Object.keys(currOptions)
+    				// 	.map(key => currOptions[key])
+    				// 	.reduce((prevVal, currVal) => {
+    				// 		return prevVal + currVal;
+    				// 	});
     				return currVotes - prevVotes;
     			});
     		case 'dateAsc':
@@ -112,11 +118,10 @@ class PollsList extends React.Component {
 	        						created by: {poll.creator}
 	        					</h4>
 	        					<ul>{
-	    							Object.keys(poll.options).map((answer) => {
-	    								let voteCount = poll.options[answer];
+	    							poll.options.map((option) => {
 	    								return (
 	    									<li>
-	    										{answer} : {voteCount}
+	    										{option.label} : {option.value}
 	    									</li>
 	    								);
 	    							})

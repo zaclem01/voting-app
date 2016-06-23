@@ -23,21 +23,23 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 let state = {
 	polls: [
-		{id: 0, date: 1, creator: 'Zac', name: 'Who is best?', options: {me: 4, you: 2}},
-		{id: 1, date: 2, creator: 'Zac', name: 'Who is worst?', options: {me: 2, you: 1}},
-		{id: 2, date: 3, creator: 'Zac', name: 'Who is mediocre?', options: {me: 1, you: 3}},
-		{id: 3, date: 4, creator: 'Malisa', name: 'Whyyyyyy?', options: {dunno: 2, because: 3}}
+		{id: 0, date: 1, creator: 'Zac', name: 'Who is best?', options: [{label: 'me', value: 4}, {label: 'you', value: 2}]},
+		{id: 1, date: 2, creator: 'Zac', name: 'Who is worst?', options: [{label: 'me', value: 2}, {label: 'you', value: 1}]},
+		{id: 2, date: 3, creator: 'Zac', name: 'Who is mediocre?', options: [{label: 'me', value: 1}, {label: 'you', value: 3}]},
+		{id: 3, date: 4, creator: 'Malisa', name: 'Whyyyyyy?', options: [{label: 'dunno', value: 2}, {label: 'because', value: 3}, {label: 'toast', value: 7}]}
 	]
 };
 
 // API endpoints must come before Router matching
 app.get('/api/polls', (req, res) => {
+	console.log('sent polls data')
 	res.json(state);
 });
 
 app.get('/api/polls/:id', (req, res) => {
+	console.log('sent individual poll')
 	let pollMatch = state.polls.filter((poll) => poll.id == req.params.id);
-	res.json(pollMatch);
+	res.json(pollMatch[0]);
 });
 
 // Server-side rendering of components
