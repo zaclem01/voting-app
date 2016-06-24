@@ -1,4 +1,4 @@
-$small-screen-width: 992px;
+$sm-screen-width: 992px;
 
 .browse-header {
 	position: relative;
@@ -6,13 +6,13 @@ $small-screen-width: 992px;
 		position: absolute;
 		bottom: 0;
 		right: 0;
-		@media screen and (max-width: $small-screen-width) {
+		@media screen and (max-width: $sm-screen-width) {
 			position: static;
 		}
 		form {
 			margin: 0;
 			text-align: right;
-			@media screen and (max-width: $small-screen-width) {
+			@media screen and (max-width: $sm-screen-width) {
 				text-align: left;
 			}
 		}
@@ -22,15 +22,19 @@ $small-screen-width: 992px;
 /*
 ========== PollView Component ==========
 */
-.poll-list-chart {
-	width: 300px;
+.polls-list-chart {
+	.chart {
+		height: 300px;
+		width: 300px;
+	}
 }
 
 /*
 ========== PollView Component ==========
 */
 $btn-spacer: 10px;
-$view-width: 90%;
+$lg-view-width: 60%;
+$sm-view-width: 90%;
 
 .share-btn {
 	margin-right: $btn-spacer;
@@ -42,9 +46,18 @@ $view-width: 90%;
 	}
 }
 
-.btn-group, .poll-view-chart, .share-btn-group, .share-header {
+.poll-view-chart {
+	.chart {
+		height: 600px;
+	}
+}
+
+.btn-group, .poll-view-chart .chart, .share-btn-group, .share-header {
 	margin: 0 auto;
-	width: $view-width;
+	width: $lg-view-width;
+	@media screen and (max-width: $sm-screen-width) {
+		width: $sm-view-width;
+	}
 }
 
 /*

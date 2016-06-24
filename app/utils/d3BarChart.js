@@ -1,4 +1,5 @@
 import d3 from 'd3';
+import $ from 'jquery';
 
 const margins = {
 	top: 70,
@@ -10,13 +11,12 @@ const margins = {
 let d3BarChart = {};
 
 d3BarChart.create = function(el, props, state) {
-	console.log(el);
 	// Use Chart component to set width
 	// d3BarChart will fill to fit
 	let svg = d3.select(el).append('svg')
 		.attr('class', 'd3-chart')
 		.attr('width', '100%')
-		.attr('height', props.height);
+		.attr('height', $(el).height());
 
 	svg.append('g')
 		.attr('class', 'd3-chart-area')

@@ -109,22 +109,22 @@ class PollsList extends React.Component {
 	        					<h4>
 	        						created by: {poll.creator}
 	        					</h4>
-	        					<Chart
-                                    data={
-                                        poll.options.map((option) => {
-                                            console.log(poll.name, option);
-                                            return { x: option.label, y: option.value };
-                                        })
-                                    }
-                                    domain={
-                                        { 
-                                            x: poll.options.map(option => option.label),
-                                            y: [0, Math.max(...poll.options.map(option => option.value))] 
+                                <div className="polls-list-chart">
+    	        					<Chart
+                                        data={
+                                            poll.options.map((option) => {
+                                                return { x: option.label, y: option.value };
+                                            })
                                         }
-                                    }
-                                    height={200}
-                                    title=''
-                                />
+                                        domain={
+                                            { 
+                                                x: poll.options.map(option => option.label),
+                                                y: [0, Math.max(...poll.options.map(option => option.value))] 
+                                            }
+                                        }
+                                        title=""
+                                    />
+                                </div>
 	        				</Panel>
         				</Col>
         			);

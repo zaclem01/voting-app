@@ -21,6 +21,10 @@ class Chart extends React.Component {
      	BarChart.update(el, this.props, this.getChartState());
     }
 
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.sizeUpdate);
+    }
+
     getChartState() {
     	return {
     		data: this.props.data,

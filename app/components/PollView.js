@@ -53,7 +53,6 @@ class PollView extends React.Component {
 		        				y: [0, Math.max(...this.state.options.map(option => option.value))] 
 		        			}
 		        		}
-		        		height={500}
 		        		title={this.state.name}
 		        	/>
 	        	</div>
