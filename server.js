@@ -52,7 +52,6 @@ app.use((req, res) => {
 		} else if (renderProps) {
 			let html = ReactDOM.renderToString(React.createElement(Router.RouterContext, renderProps));
 			let page = pug.renderFile('views/index.pug', { html: html });
-			//res.status(200).render('views/index.pug', { html: html });
 			res.status(200).send(page);
 		} else {
 			res.status(404).send('Page Not Found');

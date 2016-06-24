@@ -19,19 +19,23 @@ $small-screen-width: 992px;
 	}
 }
 
-.rd3-chart-title {
-	font-weight: bold;
-}
+/*
+========== React Component Chart ==========
+*/
 
-.rd3-chart {
-	display: block;
-	border-radius: 5px;
-	background: #DBDBDB;
+.chart {
 	margin: 0 auto;
 }
 
-.chart-wrapper {
-	height: 400px;
-	width: 100%;
-	padding: 10px;
+/*
+========== d3 Chart ==========
+*/
+
+.d3-chart {
+	background: grey;
+	border-radius: 5px;
+
+	.d3-title {
+		font-size: 20px;
+	}
 }

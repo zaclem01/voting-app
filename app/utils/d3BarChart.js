@@ -3,8 +3,8 @@ import d3 from 'd3';
 const margins = {
 	top: 70,
 	right: 20,
-	bottom: 70,
-	left: 70
+	bottom: 30,
+	left: 20
 };
 
 let d3BarChart = {};
@@ -16,17 +16,13 @@ d3BarChart.create = function(el, props) {
 		.attr('height', props.height);
 
 	svg.append('g')
-		.attr('class', 'd3-data')
+		.attr('class', 'd3-chart-area')
 		.attr('transform', `translate(${margins.left}, ${margins.top})`);
 
 	svg.append('g').append('text')
-		.text('Test value')
-		.attr('x', parseInt(svg.style('width')) / 2)
-		.attr('y', 0 + (margins.top / 2))
-		.style({
-			'font-size': '20px',
-			'font-weight': 'bold'
-		});
+		.attr('class', 'd3-title')
+		.attr('x', margins.left)
+		.attr('y', margins.top / 2);
 
 	this.update(el, props);
 };
@@ -37,6 +33,9 @@ d3BarChart.update = function(el, props) {
 
 	let axes = this._axes(scales);
 	this._drawAxes(el, axes);
+
+	d3.select('.d3-title')
+		.text(props.title);
 };
 
 d3BarChart._scales = function(el, domain) {
@@ -47,7 +46,7 @@ d3BarChart._scales = function(el, domain) {
 	let chart = d3.select('.d3-chart');
 
 	let width = parseInt(chart.style('width')) - margins.left - margins.right;
-	let height = parseInt(chart.style('width')) - margins.top - margins.bottom;
+	let height = parseInt(chart.style('height')) - margins.top - margins.bottom;
 
 	let x = d3.scale.ordinal()
 		.rangeBands([0, width])
@@ -73,11 +72,11 @@ d3BarChart._drawData = function(el, scales, data) {
 	let chart = d3.select('.d3-chart');
 
 	let width = parseInt(chart.style('width')) - margins.left - margins.right;
-	let height = parseInt(chart.style('width')) - margins.top - margins.bottom;
+	let height = parseInt(chart.style('height')) - margins.top - margins.bottom;
 
 	let barWidth = width / data.length;
 
-	let g = d3.select(el).selectAll('.d3-data');
+	let g = d3.select(el).selectAll('.d3-chart-area');
 
 	let bar = g.selectAll('.d3-bar')
 		.data(data);
@@ -106,13 +105,14 @@ d3BarChart._drawData = function(el, scales, data) {
 d3BarChart._drawAxes = function(el, axes) {
 	let chart = d3.select('.d3-chart');
 
-	let width = parseInt(chart.style('width')) - margins.left - margins.right;
-	let height = parseInt(chart.style('width')) - margins.top - margins.bottom;
+	let height = parseInt(chart.style('height')) - margins.top - margins.bottom;
 
-	let gX = d3.select('.d3-data')
+	let gX = d3.select('.d3-chart-area')
 		.append('g');
 
-	gX.attr('transform', `translate(0, ${height})`);
+	gX.attr('transform', `translate(0, ${height})`)
+		.attr('class', 'd3-x-axis');
+
 	let xAxis = gX.call(axes.x);
 
     xAxis.selectAll('path')
