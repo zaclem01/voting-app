@@ -10,6 +10,7 @@ const margins = {
 let d3BarChart = {};
 
 d3BarChart.create = function(el, props, state) {
+	console.log(el);
 	// Use Chart component to set width
 	// d3BarChart will fill to fit
 	let svg = d3.select(el).append('svg')
@@ -21,7 +22,7 @@ d3BarChart.create = function(el, props, state) {
 		.attr('class', 'd3-chart-area')
 		.attr('transform', `translate(${margins.left}, ${margins.top})`);
 
-	d3.select('.d3-chart-area').append('g')
+	d3.select(el).select('.d3-chart-area').append('g')
 		.attr('class', 'd3-x-axis');
 
 	svg.append('g').append('text')
@@ -117,7 +118,7 @@ d3BarChart._drawAxes = function(el, axes) {
 
 	let height = parseInt(chart.style('height')) - margins.top - margins.bottom;
 
-	let gX = d3.select('.d3-x-axis')
+	let gX = d3.select(el).select('.d3-x-axis')
 		.attr('transform', `translate(0, ${height})`)
 
 	let xAxis = gX.call(axes.x);

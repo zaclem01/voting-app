@@ -3,6 +3,8 @@ import $ from 'jquery';
 import { Grid, Row, Col, Panel, Form, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 import LinkContainer from 'react-router-bootstrap';
 
+import Chart from '../utils/Chart';
+
 class PollsList extends React.Component {
     constructor(props, context) {
         super(props);
@@ -39,16 +41,6 @@ class PollsList extends React.Component {
     				let currVotes = currOptions.reduce((prev, curr) => {
     					return prev.value + curr.value;
     				});
-    				// let prevVotes = Object.keys(prevOptions)
-    				// 	.map(key => prevOptions[key])
-    				// 	.reduce((prevVal, currVal) => {
-    				// 		return prevVal + currVal;
-    				// 	});
-    				// let currVotes = Object.keys(currOptions)
-    				// 	.map(key => currOptions[key])
-    				// 	.reduce((prevVal, currVal) => {
-    				// 		return prevVal + currVal;
-    				// 	});
     				return currVotes - prevVotes;
     			});
     		case 'dateAsc':
@@ -117,15 +109,22 @@ class PollsList extends React.Component {
 	        					<h4>
 	        						created by: {poll.creator}
 	        					</h4>
-	        					<ul>{
-	    							poll.options.map((option) => {
-	    								return (
-	    									<li>
-	    										{option.label} : {option.value}
-	    									</li>
-	    								);
-	    							})
-	        					}</ul>
+	        					<Chart
+                                    data={
+                                        poll.options.map((option) => {
+                                            console.log(poll.name, option);
+                                            return { x: option.label, y: option.value };
+                                        })
+                                    }
+                                    domain={
+                                        { 
+                                            x: poll.options.map(option => option.label),
+                                            y: [0, Math.max(...poll.options.map(option => option.value))] 
+                                        }
+                                    }
+                                    height={200}
+                                    title=''
+                                />
 	        				</Panel>
         				</Col>
         			);
