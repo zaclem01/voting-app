@@ -19,6 +19,9 @@ d3BarChart.create = function(el, props) {
 		.attr('class', 'd3-chart-area')
 		.attr('transform', `translate(${margins.left}, ${margins.top})`);
 
+	d3.select('.d3-chart-area').append('g')
+		.attr('class', 'd3-x-axis');
+
 	svg.append('g').append('text')
 		.attr('class', 'd3-title')
 		.attr('x', margins.left)
@@ -96,10 +99,15 @@ d3BarChart._drawData = function(el, scales, data) {
 		.data(data);
 
 	label.enter().append('text')
-		.attr('x', (d) => scales.x(d.x) + barWidth / 2)
+		.attr('class', 'd3-label')
+		
+	label.attr('x', (d) => scales.x(d.x) + barWidth / 2)
 		.attr('y', (d) => scales.y(d.y) - 5)
 		.attr('text-anchor', 'middle')
 		.text((d) => d.y);
+
+	label.exit()
+		.remove();
 }
 
 d3BarChart._drawAxes = function(el, axes) {
@@ -107,11 +115,8 @@ d3BarChart._drawAxes = function(el, axes) {
 
 	let height = parseInt(chart.style('height')) - margins.top - margins.bottom;
 
-	let gX = d3.select('.d3-chart-area')
-		.append('g');
-
-	gX.attr('transform', `translate(0, ${height})`)
-		.attr('class', 'd3-x-axis');
+	let gX = d3.select('.d3-x-axis')
+		.attr('transform', `translate(0, ${height})`)
 
 	let xAxis = gX.call(axes.x);
 
