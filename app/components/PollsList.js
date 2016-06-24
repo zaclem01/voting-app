@@ -78,12 +78,12 @@ class PollsList extends React.Component {
     render() {
         return (
         	<Grid>
-        	<Row className="browseHeader">
+        	<Row className="browse-header">
         		<Col md={3} xs={12}>
         			<h3>Browse Polls</h3>
         		</Col>
         		<Col 
-        			className="browseHeaderForm" 
+        			className="browse-header-form" 
         			lg={6} lgOffset={3} 
         			md={9}
         			xs={12}

@@ -1,8 +1,8 @@
 $small-screen-width: 992px;
 
-.browseHeader {
+.browse-header {
 	position: relative;
-	.browseHeaderForm {
+	.browse-header-form {
 		position: absolute;
 		bottom: 0;
 		right: 0;
@@ -22,9 +22,22 @@ $small-screen-width: 992px;
 /*
 ========== React Component Chart ==========
 */
+$btn-spacer: 10px;
+$view-width: 90%;
 
-.chart {
+.share-btn {
+	margin-right: $btn-spacer;
+	width: 150px;
+	@media screen and (max-width: 534px) {
+		margin-right: 0;
+		margin-bottom: $btn-spacer;
+		width: 100%;
+	}
+}
+
+.btn-group, .poll-view-chart, .share-btn-group, .share-header {
 	margin: 0 auto;
+	width: $view-width;
 }
 
 /*

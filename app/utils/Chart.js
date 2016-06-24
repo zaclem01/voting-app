@@ -34,8 +34,8 @@ class Chart extends React.Component {
 
     render() {
         return (
-        	<div className="chart"
-        		style={{ width: this.props.width }}
+        	<div 
+        		className="chart"
         	>
         	</div>
         );
