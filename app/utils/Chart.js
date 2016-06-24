@@ -6,18 +6,26 @@ class Chart extends React.Component {
     constructor(props) {
         super(props);
 
+        this.getChartState = this.getChartState.bind(this);
         this.sizeUpdate = this.sizeUpdate.bind(this);
     }
 
     componentDidMount() {
     	let el = ReactDOM.findDOMNode(this);
-    	BarChart.create(el, this.props);
+    	BarChart.create(el, this.props, this.getChartState());
     	window ? window.addEventListener('resize', this.sizeUpdate) : null;
     }
 
     componentDidUpdate(prevProps, prevState) {
      	let el = ReactDOM.findDOMNode(this)
-     	BarChart.update(el, this.props);
+     	BarChart.update(el, this.props, this.getChartState());
+    }
+
+    getChartState() {
+    	return {
+    		data: this.props.data,
+    		domain: this.props.domain
+    	};
     }
 
     sizeUpdate() {
@@ -29,7 +37,6 @@ class Chart extends React.Component {
         	<div className="chart"
         		style={{ width: this.props.width }}
         	>
-        		
         	</div>
         );
     }

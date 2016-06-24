@@ -9,10 +9,12 @@ const margins = {
 
 let d3BarChart = {};
 
-d3BarChart.create = function(el, props) {
+d3BarChart.create = function(el, props, state) {
+	// Use Chart component to set width
+	// d3BarChart will fill to fit
 	let svg = d3.select(el).append('svg')
 		.attr('class', 'd3-chart')
-		.attr('width', props.width)
+		.attr('width', '100%')
 		.attr('height', props.height);
 
 	svg.append('g')
@@ -27,12 +29,12 @@ d3BarChart.create = function(el, props) {
 		.attr('x', margins.left)
 		.attr('y', margins.top / 2);
 
-	this.update(el, props);
+	this.update(el, props, state);
 };
 
-d3BarChart.update = function(el, props) {
-	let scales = this._scales(el, props.domain);
-	this._drawData(el, scales, props.data);
+d3BarChart.update = function(el, props, state) {
+	let scales = this._scales(el, state.domain);
+	this._drawData(el, scales, state.data);
 
 	let axes = this._axes(scales);
 	this._drawAxes(el, axes);
