@@ -101,7 +101,7 @@ class PollsList extends React.Component {
         	<Row>{
         		this.sortPolls(this.state.sort).map((poll) => {
         			return (
-        				<Col key={poll.id} md={4} sm={12}>
+        				<Col key={poll.id} lg={4} md={6} sm={12}>
 	        				<Panel 
 	        					header={poll.name}
 	        					onClick={() => this.context.router.push(`/${poll.id}`)}
@@ -110,20 +110,7 @@ class PollsList extends React.Component {
 	        						created by: {poll.creator}
 	        					</h4>
                                 <div className="polls-list-chart">
-    	        					<Chart
-                                        data={
-                                            poll.options.map((option) => {
-                                                return { x: option.label, y: option.value };
-                                            })
-                                        }
-                                        domain={
-                                            { 
-                                                x: poll.options.map(option => option.label),
-                                                y: [0, Math.max(...poll.options.map(option => option.value))] 
-                                            }
-                                        }
-                                        title=""
-                                    />
+    	        					<Chart data={poll.options} />
                                 </div>
 	        				</Panel>
         				</Col>

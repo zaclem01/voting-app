@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import BarChart from './d3BarChart';
+import PieChart from './d3PieChart'
 
 class Chart extends React.Component {
     constructor(props) {
@@ -12,13 +13,13 @@ class Chart extends React.Component {
 
     componentDidMount() {
     	let el = ReactDOM.findDOMNode(this);
-    	BarChart.create(el, this.props, this.getChartState());
+    	PieChart.create(el, this.props, this.getChartState());
     	window ? window.addEventListener('resize', this.sizeUpdate) : null;
     }
 
     componentDidUpdate(prevProps, prevState) {
      	let el = ReactDOM.findDOMNode(this)
-     	BarChart.update(el, this.props, this.getChartState());
+     	PieChart.update(el, this.props, this.getChartState());
     }
 
     componentWillUnmount() {
@@ -28,7 +29,6 @@ class Chart extends React.Component {
     getChartState() {
     	return {
     		data: this.props.data,
-    		domain: this.props.domain
     	};
     }
 

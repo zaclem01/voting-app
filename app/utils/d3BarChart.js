@@ -15,7 +15,7 @@ d3BarChart.create = function(el, props, state) {
 	// d3BarChart will fill to fit
 	let svg = d3.select(el).append('svg')
 		.attr('class', 'd3-chart')
-		.attr('width', '100%')
+		.attr('width', $(el).width())
 		.attr('height', $(el).height());
 
 	svg.append('g')
@@ -25,23 +25,19 @@ d3BarChart.create = function(el, props, state) {
 	d3.select(el).select('.d3-chart-area').append('g')
 		.attr('class', 'd3-x-axis');
 
-	svg.append('g').append('text')
-		.attr('class', 'd3-title')
-		.attr('x', margins.left)
-		.attr('y', margins.top / 2);
-
 	this.update(el, props, state);
 };
 
 d3BarChart.update = function(el, props, state) {
+	d3.select(el).select('.d3-chart')
+		.attr('width', $(el).width())
+		.attr('height', $(el).height());
+
 	let scales = this._scales(el, state.domain);
 	this._drawData(el, scales, state.data);
 
 	let axes = this._axes(scales);
 	this._drawAxes(el, axes);
-
-	d3.select('.d3-title')
-		.text(props.title);
 };
 
 d3BarChart._scales = function(el, domain) {

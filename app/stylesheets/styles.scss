@@ -1,4 +1,5 @@
-$sm-screen-width: 992px;
+$md-screen-width: 992px;
+$sm-screen-width: 480px;
 
 .browse-header {
 	position: relative;
@@ -6,13 +7,13 @@ $sm-screen-width: 992px;
 		position: absolute;
 		bottom: 0;
 		right: 0;
-		@media screen and (max-width: $sm-screen-width) {
+		@media screen and (max-width: $md-screen-width) {
 			position: static;
 		}
 		form {
 			margin: 0;
 			text-align: right;
-			@media screen and (max-width: $sm-screen-width) {
+			@media screen and (max-width: $md-screen-width) {
 				text-align: left;
 			}
 		}
@@ -20,12 +21,21 @@ $sm-screen-width: 992px;
 }
 
 /*
-========== PollView Component ==========
+========== PollsList Component ==========
 */
 .polls-list-chart {
 	.chart {
 		height: 300px;
-		width: 300px;
+		width: 100%;
+		@media screen and (max-width: $sm-screen-width) {
+			margin: 0 auto;
+		}
+	}
+}
+
+.voting-form {
+	.voting-btn, .voting-options {
+		width: 100%;
 	}
 }
 
@@ -33,30 +43,33 @@ $sm-screen-width: 992px;
 ========== PollView Component ==========
 */
 $btn-spacer: 10px;
-$lg-view-width: 60%;
-$sm-view-width: 90%;
+$view-width: 100%;
 
-.share-btn {
-	margin-right: $btn-spacer;
-	width: 150px;
-	@media screen and (max-width: 534px) {
-		margin-right: 0;
-		margin-bottom: $btn-spacer;
-		width: 100%;
+.share-btn-group {
+	.share-btn {
+		margin-top: $btn-spacer;
+		width: $view-width;
 	}
+}
+
+.share-header {
+	margin-top: 75px;
 }
 
 .poll-view-chart {
 	.chart {
-		height: 600px;
+		height: 500px;
+		@media screen and (max-width: $sm-screen-width) {
+			height: 350px;
+		}
 	}
 }
 
-.btn-group, .poll-view-chart .chart, .share-btn-group, .share-header {
-	margin: 0 auto;
-	width: $lg-view-width;
+.poll-view-container {
+	margin-top: 30px;
 	@media screen and (max-width: $sm-screen-width) {
-		width: $sm-view-width;
+		margin: 10px auto;
+		width: 90%;
 	}
 }
 
@@ -65,10 +78,5 @@ $sm-view-width: 90%;
 */
 
 .d3-chart {
-	background: grey;
 	border-radius: 5px;
-
-	.d3-title {
-		font-size: 20px;
-	}
 }
