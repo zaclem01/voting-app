@@ -111,7 +111,8 @@ class PollView extends React.Component {
         			</Col>
         			<Col md={8} sm={12}>
 		        		<div className="poll-view-chart">
-				        	<Chart data={this.state.options} />			        	</div>
+				        	<Chart data={this.state.options} />
+				        </div>
 			        </Col>
 			        </Row>
 		        </Row>

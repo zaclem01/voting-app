@@ -19,7 +19,9 @@ class Chart extends React.Component {
 
     componentDidUpdate(prevProps, prevState) {
      	let el = ReactDOM.findDOMNode(this)
-     	PieChart.update(el, this.props, this.getChartState());
+        // Resize the chart
+        // Find a better way if able
+     	PieChart.create(el, this.props, this.getChartState());
     }
 
     componentWillUnmount() {
@@ -33,6 +35,7 @@ class Chart extends React.Component {
     }
 
     sizeUpdate() {
+        // Is there a better method?
     	this.forceUpdate();
     }
 

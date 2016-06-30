@@ -18,10 +18,10 @@ export default (
 		<Route path='/signup' component={SignUp} />
 		<Route path='/dashboard' component={Dashboard} />
 		<Route path='/browse' component={PollsList} />
+		<Route path='/create' component={PollAdd} />
 		<Route path='/:id' component={Poll}>
 			<IndexRoute component={PollView} />
 			<Route path='edit' component={PollEdit} />
 		</Route>
-		<Route path='/create' component={PollAdd} />
 	</Route>
 );

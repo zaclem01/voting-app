@@ -4,6 +4,7 @@ require('babel-register');
 let express = require('express');
 let path = require('path');
 let logger = require('morgan');
+let parser = require('body-parser');
 
 // Server-side rendering requires
 let pug = require('pug');
@@ -19,6 +20,7 @@ let port = process.env.PORT || 3000;
 app.set('view engine', 'pug');
 
 app.use(logger('dev'));
+app.use(parser.json({ type: 'application/json' }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 let state = {
@@ -34,6 +36,17 @@ let state = {
 app.get('/api/polls', (req, res) => {
 	console.log('sent polls data')
 	res.json(state);
+});
+
+app.post('/api/polls', (req, res) => {
+	console.log('created new poll');
+	console.log('req.body', req.body)
+	let newPoll = req.body;
+	newPoll.id = state.polls.length;
+	newPoll.data = state.polls.length + 1;
+	state.polls.push(newPoll);
+	console.log('polls', state);
+	res.send(newPoll);
 });
 
 app.get('/api/polls/:id', (req, res) => {

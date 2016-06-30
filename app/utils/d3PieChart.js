@@ -4,8 +4,15 @@ import $ from 'jquery';
 let d3PieChart = {};
 
 d3PieChart.create = function(el, props, state) {
-	let width = $(el).width();
-	let height = $(el).height();
+	const width = $(el).width();
+	const height = $(el).height();
+
+	// Remove any previous in case of rerender
+	d3.select(el).select('svg').remove();
+	d3.select(el).select('ul').remove();
+
+	d3.select(el).append('ul')
+		.attr('class', 'd3-legend');
 
 	let svg = d3.select(el).append('svg')
 		.attr('class', 'd3-chart')
@@ -13,8 +20,7 @@ d3PieChart.create = function(el, props, state) {
 		.attr('height', height);
 
 	svg.append('g')
-		.attr('class', 'd3-chart-area')
-		.attr('transform', `translate(${width / 2}, ${height / 2})`);
+		.attr('class', 'd3-chart-area');
 
 	this.update(el, props, state);
 }
@@ -22,14 +28,20 @@ d3PieChart.create = function(el, props, state) {
 d3PieChart.update = function(el, props, state) {
 	let width = $(el).width();
 	let height = $(el).height();
-	let radius = Math.min(width, height) / 2;
+	const radius = Math.min(width, height) / 2;
 
 	d3.select(el).select('.d3-chart')
 		.attr('width', width)
 		.attr('height', height);
 
 	d3.select(el).select('.d3-chart-area')
-		.attr('transform', `translate(${width / 2}, ${height / 2})`);
+		.attr('transform', () => {
+			if(width < height) {
+				return `translate(${width / 2}, ${radius})`;
+			} else {
+				return `translate(${width / 2}, ${height / 2})`;
+			}
+		});
 
 	let arc = this._arc(radius);
 	this._draw(el, state.data, arc)
@@ -48,26 +60,51 @@ d3PieChart._arc = function(radius) {
 }
 
 d3PieChart._draw = function(el, data, arc) {
-	let colors = d3.scale.category20b();
+	const width = $(el).width();
+	const height = $(el).height();
+	const radius = Math.min(width, height) / 2;
+
+	const colors = d3.scale.category20b();
+	const legendSpace = 20;
 
 	let pie = d3.layout.pie()
 		.sort(null)
 		.value(d => d.value);
 
 	let g = d3.select(el).select('.d3-chart-area')
-			.selectAll('.arc')
-			.data(pie(data))
-		.enter().append('g')
-			.attr('class', 'arc');
+			
+	let wedge = g.selectAll('.arc')
+		.data(pie(data))
 
-	g.append('path')
-		.attr('d', arc.arc)
-		.attr('fill', d => colors(d.data.label));
+	wedge.enter().append('g').append('path')
+			.attr('class', 'arc')
+			.attr('d', arc.arc)
+			.attr('fill', d => {
+				return colors(d.data.label)
+			});
 
-	g.append('text')
-		.attr('transform', (d) => `translate(${arc.labelArc.centroid(d)})`)
-		.attr('dy', '.35em')
-		.text(d => d.data.label);
+	// wedge.append('text')
+	// 	.attr('transform', d => `translate(${arc.labelArc.centroid(d)})`)
+	// 	.attr('dy', '.35em')
+	// 	.text(d => d.data.label);
+
+	// let legend = g.selectAll('.legend')
+	// 	.data(data)
+	// 		.enter().append('g')
+	// 	.attr('class', 'legend')
+	// 	.attr('transform', (d, i) => {
+	// 		console.log('move legend')
+	// 		return `translate(${radius + 50}, ${(i - (data.length - 1)) * legendSpace})`
+	// 	});
+
+	// legend.append('text')
+	// 	.text(d => d.label);
+	let legend = d3.select(el).select('.d3-legend').selectAll('.d3-legend-item')
+		.data(data)
+		.enter().append('li');
+
+	legend.attr('class', 'd3-legend-item')
+		.html(d => `<div class="d3-legend-color" style="background:${colors(d.label)};"></div>${d.label}`);
 }
 
 export default d3PieChart;

@@ -103,6 +103,7 @@ class PollsList extends React.Component {
         			return (
         				<Col key={poll.id} lg={4} md={6} sm={12}>
 	        				<Panel 
+                                className="polls-list-panel"
 	        					header={poll.name}
 	        					onClick={() => this.context.router.push(`/${poll.id}`)}
 	        				>
