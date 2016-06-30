@@ -110,7 +110,9 @@ $view-width: 100%;
 	}
 	.d3-legend-color {
 		display: inline-block;
+		border-radius: 2px;
 		height: 10px;
+		margin-right: 5px;
 		width: 10px;
 	}
 }
