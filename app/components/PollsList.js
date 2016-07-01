@@ -24,6 +24,7 @@ class PollsList extends React.Component {
     	if (nextQuery.sort === thisQuery.sort) {
     		return;
     	}
+
     	this.setState({
         	sort: nextProps.location.query.sort || 'dateDesc'
     	});

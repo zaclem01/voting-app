@@ -24,6 +24,20 @@ class App extends React.Component {
     	});
     }
 
+    componentWillReceiveProps(nextProps) {
+        $.ajax({
+            url: '/api/polls',
+            type: 'GET',
+            dataType: 'json',
+            success: (data) => {
+                this.setState({ polls: data.polls });
+            },
+            error: (xhr, status, err) => {
+                console.error(err.toString());
+            }
+        });
+    }
+
 	render() {
 		// Must clone the child element to add the props
 		return (

@@ -12,7 +12,8 @@ class PollAdd extends React.Component {
         super(props);
         this.state = {
         	rowCount: 2,
-        	title: ''
+        	title: '',
+            pollAdded: false
         };
 
         this.context = context;
@@ -38,7 +39,6 @@ class PollAdd extends React.Component {
     	let pollOptions = [];
     	for (let i = 0; i < this.state.rowCount; i++) {
     		let optionLabel = ReactDOM.findDOMNode(this.refs[`option-${i}`]).value;
-    		console.log('optionLabel ' , optionLabel);
     		let optionValue = i === 0 ? 1 : 0;
     		pollOptions.push({ label: optionLabel, value: optionValue});
     	}
@@ -51,7 +51,7 @@ class PollAdd extends React.Component {
     		contentType: 'application/json',
     		data: JSON.stringify(newPoll),
     		success: () => {
-    			this.context.router.push({pathname: 'browse', query: null});
+    			this.context.router.push('browse');
     		},
     		error: (xhr, status, err) => {
     			console.error(err.toString());
