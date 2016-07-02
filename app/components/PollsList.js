@@ -34,13 +34,44 @@ class PollsList extends React.Component {
     	switch(sort) {
     		case 'popularity':
     			return this.props.polls.sort((prev, curr) => {
+                    let name = curr.name
     				let prevOptions = prev.options;
     				let currOptions = curr.options;
     				let prevVotes = prevOptions.reduce((prev, curr) => {
-    					return prev.value + curr.value;
+    					let prevValue;
+                        let currValue;
+
+                        if (prev.value) {
+                            prevValue = prev.value;
+                        } else {
+                            prevValue = prev;
+                        }
+
+                        if (curr.value) {
+                            currValue = curr.value;
+                        } else {
+                            currValue = curr;
+                        }
+
+                        return prevValue + currValue;
     				});
     				let currVotes = currOptions.reduce((prev, curr) => {
-    					return prev.value + curr.value;
+                        let prevValue;
+                        let currValue;
+
+                        if (prev.value) {
+                            prevValue = prev.value;
+                        } else {
+                            prevValue = prev;
+                        }
+
+                        if (curr.value) {
+                            currValue = curr.value;
+                        } else {
+                            currValue = curr;
+                        }
+
+    					return prevValue + currValue;
     				});
     				return currVotes - prevVotes;
     			});

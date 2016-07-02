@@ -21,6 +21,7 @@ app.set('view engine', 'pug');
 
 app.use(logger('dev'));
 app.use(parser.json({ type: 'application/json' }));
+app.use(parser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 let state = {
@@ -53,6 +54,26 @@ app.get('/api/polls/:id', (req, res) => {
 	console.log('sent individual poll')
 	let pollMatch = state.polls.filter((poll) => poll.id == req.params.id);
 	res.json(pollMatch[0]);
+});
+
+app.put('/api/polls/:id', (req, res) => {
+	let pollMatch = state.polls.filter((poll) => poll.id == req.params.id)[0];
+	let updatedOptions = pollMatch.options.map((option) => {
+		if (option.label == req.body.userVote) {
+			return { label: option.label, value: option.value += 1 };
+		} else {
+			return option;
+		}
+	});
+	let updatedPolls = state.polls.map((poll) => {
+		if (poll.id == req.params.id) {
+			poll.options = updatedOptions;
+			return poll;
+		} else {
+			return poll;
+		}
+	});
+	res.send();
 });
 
 // Server-side rendering of components

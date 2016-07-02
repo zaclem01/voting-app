@@ -17,8 +17,12 @@ class PollView extends React.Component {
         	date: undefined, 
         	creator: '', 
         	name: '', 
-        	options: [] 
+        	options: [],
+        	userVote: '' 
         };
+
+        this.handleVoteSelect = this.handleVoteSelect.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
@@ -38,6 +42,39 @@ class PollView extends React.Component {
     		},
     		error: (xhr, status, err) => {
     			console.error(err.toString());
+    		}
+    	});
+    }
+
+    handleVoteSelect(e) {
+    	this.setState({ userVote: e.target.value });
+    }
+
+    handleSubmit() {
+    	let pollId = this.props.params.id;
+    	let vote = this.state.userVote || this.state.options[0].label;
+
+    	const previousVotes = this.state.options;
+    	const newVotes = this.state.options.map((option) => {
+    		if (option.label !== vote) {
+    			return option;
+    		} else {
+    			return { label: option.label, value: option.value += 1 };
+    		}
+    	});
+    	console.log('newVotes ' , newVotes);
+    	this.setState({ options: newVotes });
+
+    	$.ajax({
+    		url: `/api/polls/${pollId}`,
+    		type: 'PUT',
+    		data: { userVote: vote },
+    		success: (data) => {
+    			console.log('success');
+    		},
+    		error: (xhr, status, err) => {
+    			console.error(err.toString());
+    			this.setState({ options: previousVotes });
     		}
     	});
     }
@@ -62,7 +99,7 @@ class PollView extends React.Component {
 	        					<FormControl
 	        						className="voting-options" 
 	        						componentClass="select"
-	        						placeholder="Choose wisely..."
+	        						onChange={this.handleVoteSelect}
 	        					>
 	        						{
 	        							this.state.options.map((option) => {
@@ -81,6 +118,7 @@ class PollView extends React.Component {
         					<Button 
         						className="voting-btn"
         						bsSize="large"
+        						onClick={this.handleSubmit}
         					>
         						Submit
         					</Button>
