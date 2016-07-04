@@ -133,11 +133,11 @@ class PollsList extends React.Component {
         	<Row>{
         		this.sortPolls(this.state.sort).map((poll) => {
         			return (
-        				<Col key={poll.id} lg={4} md={6} sm={12}>
+        				<Col key={poll._id} lg={4} md={6} sm={12}>
 	        				<Panel 
                                 className="polls-list-panel"
 	        					header={poll.name}
-	        					onClick={() => this.context.router.push(`/${poll.id}`)}
+	        					onClick={() => this.context.router.push(`/${poll._id}`)}
 	        				>
 	        					<h4>
 	        						created by: {poll.creator}

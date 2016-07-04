@@ -24,6 +24,15 @@ $xs-screen-width: 480px;
 /*
 ========== PollsList Component ==========
 */
+.home-chart {
+	.chart {
+		height: 500px;
+	}
+}
+
+/*
+========== PollsList Component ==========
+*/
 $sm-chart-height: 300px;
 $xs-chart-height: 200px;
 

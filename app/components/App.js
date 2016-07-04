@@ -1,6 +1,5 @@
 import React from 'react';
 import $ from 'jquery';
-import { Grid } from 'react-bootstrap';
 
 import NavBar from './NavBar';
 
@@ -15,13 +14,9 @@ class App extends React.Component {
     		url: '/api/polls',
     		type: 'GET',
     		dataType: 'json',
-    		success: (data) => {
-    			this.setState({ polls: data.polls });
-    		},
-    		error: (xhr, status, err) => {
-    			console.error(err.toString());
-    		}
-    	});
+    	})
+        .done(data => this.setState({ polls: data }))
+        .fail((xhr, status, err) => console.error(err.toString()));
     }
 
     componentWillReceiveProps(nextProps) {
@@ -29,23 +24,27 @@ class App extends React.Component {
             url: '/api/polls',
             type: 'GET',
             dataType: 'json',
-            success: (data) => {
-                this.setState({ polls: data.polls });
-            },
-            error: (xhr, status, err) => {
-                console.error(err.toString());
-            }
-        });
+        })
+        .done(data => this.setState({ polls: data }))
+        .fail((xhr, status, err) => console.error(err.toString()));
     }
 
 	render() {
-		// Must clone the child element to add the props
-		return (
-			<div>
-				<NavBar />
-				{React.cloneElement(this.props.children, {...this.state})}
-			</div>
-		);
+        console.log('rendering')
+        let renderPolls = this.state.polls.length > 0;
+        if (renderPolls) {
+            console.log('polls found!')
+            // Must clone the child element to add the props
+            return (
+                <div>
+                    <NavBar />
+                    {React.cloneElement(this.props.children, {...this.state})}
+                </div>
+            );
+        } else {
+            console.log('no polls found!')
+            return (<div>Loading...</div>);
+        }
 	}
 }
 

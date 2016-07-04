@@ -33,7 +33,7 @@ class PollView extends React.Component {
     		type: 'GET',
     		success: (data) => {
     			this.setState(this.state = { 
-		        	id: data.id, 
+		        	id: data._id, 
 		        	date: data.date, 
 		        	creator: data.creator, 
 		        	name: data.name, 

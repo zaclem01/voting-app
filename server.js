@@ -13,9 +13,20 @@ let ReactDOM = require('react-dom/server');
 let Router = require('react-router');
 let routes = require('./app/routes');
 
+// Database requires
+let mongoose = require('mongoose');
+let Poll = require('./models/poll');
+
 let app = express();
 
+// Environmental variables
 let port = process.env.PORT || 3000;
+let dbUrl = process.env.MONGOLAB_URI || 'mongodb://localhost:27017/voting-app';
+
+mongoose.connect(dbUrl, (err) => {
+	if (err) console.error('MongoDB connection error');
+	else console.log('Successfully connected to MongoDB');
+});
 
 app.set('view engine', 'pug');
 
@@ -24,56 +35,47 @@ app.use(parser.json({ type: 'application/json' }));
 app.use(parser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-let state = {
-	polls: [
-		{id: 0, date: 1, creator: 'Zac', name: 'Who is best?', options: [{label: 'me', value: 4}, {label: 'you', value: 2}]},
-		{id: 1, date: 2, creator: 'Zac', name: 'Who is worst?', options: [{label: 'me', value: 2}, {label: 'you', value: 1}]},
-		{id: 2, date: 3, creator: 'Zac', name: 'Who is mediocre?', options: [{label: 'me', value: 1}, {label: 'you', value: 3}]},
-		{id: 3, date: 4, creator: 'Malisa', name: 'Whyyyyyy?', options: [{label: 'dunno', value: 2}, {label: 'because', value: 3}, {label: 'toast', value: 7}]}
-	]
-};
+// let state = {
+// 	polls: [
+// 		{id: 0, date: 1, creator: 'Zac', name: 'Who is best?', options: [{label: 'me', value: 4}, {label: 'you', value: 2}]},
+// 		{id: 1, date: 2, creator: 'Zac', name: 'Who is worst?', options: [{label: 'me', value: 2}, {label: 'you', value: 1}]},
+// 		{id: 2, date: 3, creator: 'Zac', name: 'Who is mediocre?', options: [{label: 'me', value: 1}, {label: 'you', value: 3}]},
+// 		{id: 3, date: 4, creator: 'Malisa', name: 'Whyyyyyy?', options: [{label: 'dunno', value: 2}, {label: 'because', value: 3}, {label: 'toast', value: 7}]}
+// 	]
+// };
 
 // API endpoints must come before Router matching
 app.get('/api/polls', (req, res) => {
-	console.log('sent polls data')
-	res.json(state);
+	Poll.find({}, (err, polls) => {
+		if (err) res.send(`Error in retreiving polls: ${err}`);
+		res.json(polls)
+	});
 });
 
 app.post('/api/polls', (req, res) => {
-	console.log('created new poll');
-	console.log('req.body', req.body)
 	let newPoll = req.body;
-	newPoll.id = state.polls.length;
-	newPoll.data = state.polls.length + 1;
-	state.polls.push(newPoll);
-	console.log('polls', state);
-	res.send(newPoll);
+	Poll.create(newPoll, (err, poll) => {
+		if (err) res.send(`Error in creating poll: ${err}`);
+		res.json(poll);
+	})
 });
 
 app.get('/api/polls/:id', (req, res) => {
-	console.log('sent individual poll')
-	let pollMatch = state.polls.filter((poll) => poll.id == req.params.id);
-	res.json(pollMatch[0]);
+	Poll.findOne({ _id: req.params.id }, (err, poll) => {
+		if (err) res.send(`Error in creating poll: ${err}`);
+		res.json(poll);
+	});
 });
 
 app.put('/api/polls/:id', (req, res) => {
-	let pollMatch = state.polls.filter((poll) => poll.id == req.params.id)[0];
-	let updatedOptions = pollMatch.options.map((option) => {
-		if (option.label == req.body.userVote) {
-			return { label: option.label, value: option.value += 1 };
-		} else {
-			return option;
+	Poll.findOneAndUpdate(
+		{ _id: req.params.id, 'options.label': req.body.userVote }, 
+		{ $inc: { 'options.$.value': 1 } },
+		(err, update) => {
+			if (err) res.send(`Error in voting on poll: ${err}`);
+			res.json(update);
 		}
-	});
-	let updatedPolls = state.polls.map((poll) => {
-		if (poll.id == req.params.id) {
-			poll.options = updatedOptions;
-			return poll;
-		} else {
-			return poll;
-		}
-	});
-	res.send();
+	)
 });
 
 // Server-side rendering of components
