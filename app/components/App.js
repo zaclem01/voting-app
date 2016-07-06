@@ -30,10 +30,8 @@ class App extends React.Component {
     }
 
 	render() {
-        console.log('rendering')
         let renderPolls = this.state.polls.length > 0;
         if (renderPolls) {
-            console.log('polls found!')
             // Must clone the child element to add the props
             return (
                 <div>

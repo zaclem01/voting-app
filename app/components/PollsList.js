@@ -31,23 +31,23 @@ class PollsList extends React.Component {
     }
 
     sortPolls(sort) {
+        console.log(this.props.polls)
     	switch(sort) {
     		case 'popularity':
     			return this.props.polls.sort((prev, curr) => {
-                    let name = curr.name
     				let prevOptions = prev.options;
     				let currOptions = curr.options;
     				let prevVotes = prevOptions.reduce((prev, curr) => {
     					let prevValue;
                         let currValue;
 
-                        if (prev.value) {
+                        if (prev.value != undefined) {
                             prevValue = prev.value;
                         } else {
                             prevValue = prev;
                         }
 
-                        if (curr.value) {
+                        if (curr.value != undefined) {
                             currValue = curr.value;
                         } else {
                             currValue = curr;
@@ -59,13 +59,13 @@ class PollsList extends React.Component {
                         let prevValue;
                         let currValue;
 
-                        if (prev.value) {
+                        if (prev.value != undefined) {
                             prevValue = prev.value;
                         } else {
                             prevValue = prev;
                         }
 
-                        if (curr.value) {
+                        if (curr.value != undefined) {
                             currValue = curr.value;
                         } else {
                             currValue = curr;
@@ -77,11 +77,11 @@ class PollsList extends React.Component {
     			});
     		case 'dateAsc':
     			return this.props.polls.sort((prev, curr) => {
-    				return prev.date - curr.date;
+    				return Date.parse(prev.date) - Date.parse(curr.date);
     			});
     		case 'dateDesc':
     			return this.props.polls.sort((prev, curr) => {
-    				return curr.date - prev.date;
+    				return Date.parse(curr.date) - Date.parse(prev.date);
     			});
     	}
     }
