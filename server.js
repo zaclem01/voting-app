@@ -62,7 +62,7 @@ app.post('/api/polls', (req, res) => {
 
 app.get('/api/polls/:id', (req, res) => {
 	Poll.findOne({ _id: req.params.id }, (err, poll) => {
-		if (err) res.send(`Error in creating poll: ${err}`);
+		if (err) res.send(`Error in retrieving poll: ${err}`);
 		res.json(poll);
 	});
 });
@@ -75,6 +75,14 @@ app.put('/api/polls/:id', (req, res) => {
 			if (err) res.send(`Error in voting on poll: ${err}`);
 			res.json(update);
 		}
+	)
+});
+
+app.delete('/api/polls/:id', (req, res) => {
+	Poll.findOneAndRemove({ _id: req.params.id }, (err, poll) => {
+		if (err) res.send(`Error in removing poll: ${err}`);
+		res.json(poll);
+	}
 	)
 });
 

@@ -61,12 +61,6 @@ $xs-chart-height: 200px;
 	}
 }
 
-.voting-form {
-	.voting-btn, .voting-options {
-		width: 100%;
-	}
-}
-
 /*
 ========== PollView Component ==========
 */
@@ -93,10 +87,16 @@ $view-width: 100%;
 	}
 }
 
+.voting-form {
+	.delete-btn, .voting-btn, .voting-options {
+		width: 100%;
+	}
+}
+
 .poll-view-container {
 	margin-top: 30px;
-	@media screen and (max-width: $xs-screen-width) {
-		margin-top: 10px;
+	@media screen and (max-width: $sm-screen-width) {
+		margin: 10px auto;
 		width: 90%;
 	}
 }

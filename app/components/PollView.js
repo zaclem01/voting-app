@@ -10,7 +10,7 @@ import $ from 'jquery';
 import Chart from '../utils/Chart';
 
 class PollView extends React.Component {
-    constructor(props) {
+    constructor(props, context) {
         super(props);
         this.state = { 
         	id: undefined, 
@@ -20,9 +20,11 @@ class PollView extends React.Component {
         	options: [],
         	userVote: '' 
         };
+        this.context = context;
 
         this.handleVoteSelect = this.handleVoteSelect.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
     }
 
     componentDidMount() {
@@ -79,6 +81,24 @@ class PollView extends React.Component {
     	});
     }
 
+    handleDelete() {
+        let pollId = this.props.params.id;
+        let remove = confirm('Are you sure you want to delete this poll?');
+
+        if (remove) {
+            $.ajax({
+                url: `/api/polls/${pollId}`,
+                type: 'DELETE',
+                success: (data) => {
+                    this.context.router.push('browse');
+                },
+                error: (xhr, status, err) => {
+                    console.error(err.toString());
+                }
+            });
+        }
+    }
+
     render() {
         return (
         	<Grid>
@@ -115,13 +135,22 @@ class PollView extends React.Component {
 	        						}
 	        					</FormControl>
 	        				</FormGroup>
-        					<Button 
-        						className="voting-btn"
-        						bsSize="large"
-        						onClick={this.handleSubmit}
-        					>
-        						Submit
-        					</Button>
+                            <Button 
+                                className="voting-btn"
+                                bsStyle="success"
+                                bsSize="large"
+                                onClick={this.handleSubmit}
+                            >
+                                Submit
+                            </Button>
+                            <Button 
+                                className="delete-btn"
+                                bsStyle="danger"
+                                bsSize="large"
+                                onClick={this.handleDelete}
+                            >
+                                Delete Poll
+                            </Button>
 	        				<h3 className="share-header">
 				        		Share this poll with your friends
 				        	</h3>
@@ -158,5 +187,9 @@ class PollView extends React.Component {
         );
     }
 }
+
+PollView.contextTypes = {
+  router: React.PropTypes.object.isRequired
+};
 
 export default PollView;
