@@ -83,28 +83,18 @@ d3PieChart._draw = function(el, data, arc) {
 				return colors(d.data.label)
 			});
 
-	// wedge.append('text')
-	// 	.attr('transform', d => `translate(${arc.labelArc.centroid(d)})`)
-	// 	.attr('dy', '.35em')
-	// 	.text(d => d.data.label);
-
-	// let legend = g.selectAll('.legend')
-	// 	.data(data)
-	// 		.enter().append('g')
-	// 	.attr('class', 'legend')
-	// 	.attr('transform', (d, i) => {
-	// 		console.log('move legend')
-	// 		return `translate(${radius + 50}, ${(i - (data.length - 1)) * legendSpace})`
-	// 	});
-
-	// legend.append('text')
-	// 	.text(d => d.label);
 	let legend = d3.select(el).select('.d3-legend').selectAll('.d3-legend-item')
 		.data(data)
 		.enter().append('li');
 
 	legend.attr('class', 'd3-legend-item')
-		.html(d => `<div class="d3-legend-color" style="background:${colors(d.label)};"></div>${d.label}`);
+		.html((d, i) => {
+			if (i < 2) {
+				return `<div class="d3-legend-color" style="background:${colors(d.label)};"></div>${d.label}`
+			} else if (i === 2) {
+				return '<b>cont...</b>';
+			} else return null;
+		});
 }
 
 export default d3PieChart;

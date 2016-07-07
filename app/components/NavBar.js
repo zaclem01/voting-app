@@ -37,6 +37,18 @@ class NavBar extends React.Component {
                         }}>
                             Browse
                         </NavItem>
+                        <NavItem onClick={() => {
+                            this.context.router.push('/create');
+                            this.setState({ expanded: false });
+                        }}>
+                            Create
+                        </NavItem>
+                        <NavItem onClick={() => {
+                            this.context.router.push('/dashboard');
+                            this.setState({ expanded: false });
+                        }}>
+                            Manage
+                        </NavItem>
                     </Nav>
                     <Nav pullRight>
                         <NavItem onClick={() => {

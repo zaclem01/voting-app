@@ -12,14 +12,13 @@ class PollAdd extends React.Component {
         super(props);
         this.state = {
         	rowCount: 2,
-        	title: '',
-            pollAdded: false
+        	name: ''
         };
 
         this.context = context;
 
         this.handleAddOption = this.handleAddOption.bind(this);
-        this.handleTitleChange = this.handleTitleChange.bind(this);
+        this.handleNameChange = this.handleNameChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -27,14 +26,14 @@ class PollAdd extends React.Component {
     	this.setState({ rowCount: this.state.rowCount += 1 });
     }
 
-    handleTitleChange(e) {
-    	this.setState({ title: e.target.value });
+    handleNameChange(e) {
+    	this.setState({ name: e.target.value });
     }
 
     handleSubmit() {
     	let newPoll = {
     		creator: 'Zac',
-    		name: this.state.title
+    		name: this.state.name
     	};
     	let pollOptions = [];
     	for (let i = 0; i < this.state.rowCount; i++) {
@@ -83,8 +82,8 @@ class PollAdd extends React.Component {
 	        					<ControlLabel>Title</ControlLabel>
 	        					<FormControl 
 	        						type="text"
-	        						placeholder="Enter title"
-	        						onChange={this.handleTitleChange}
+	        						placeholder="Enter name"
+	        						onChange={this.handleNameChange}
 	        					/>
 	        				</FormGroup>
 	        				<FormGroup>

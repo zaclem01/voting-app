@@ -35,15 +35,6 @@ app.use(parser.json({ type: 'application/json' }));
 app.use(parser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// let state = {
-// 	polls: [
-// 		{id: 0, date: 1, creator: 'Zac', name: 'Who is best?', options: [{label: 'me', value: 4}, {label: 'you', value: 2}]},
-// 		{id: 1, date: 2, creator: 'Zac', name: 'Who is worst?', options: [{label: 'me', value: 2}, {label: 'you', value: 1}]},
-// 		{id: 2, date: 3, creator: 'Zac', name: 'Who is mediocre?', options: [{label: 'me', value: 1}, {label: 'you', value: 3}]},
-// 		{id: 3, date: 4, creator: 'Malisa', name: 'Whyyyyyy?', options: [{label: 'dunno', value: 2}, {label: 'because', value: 3}, {label: 'toast', value: 7}]}
-// 	]
-// };
-
 // API endpoints must come before Router matching
 app.get('/api/polls', (req, res) => {
 	Poll.find({}, (err, polls) => {
@@ -68,14 +59,28 @@ app.get('/api/polls/:id', (req, res) => {
 });
 
 app.put('/api/polls/:id', (req, res) => {
-	Poll.findOneAndUpdate(
-		{ _id: req.params.id, 'options.label': req.body.userVote }, 
-		{ $inc: { 'options.$.value': 1 } },
-		(err, update) => {
-			if (err) res.send(`Error in voting on poll: ${err}`);
-			res.json(update);
-		}
-	)
+	if (req.body.userVote) {
+		Poll.findOneAndUpdate(
+			{ _id: req.params.id, 'options.label': req.body.userVote }, 
+			{ $inc: { 'options.$.value': 1 } },
+			(err, update) => {
+				if (err) res.send(`Error in voting on poll: ${err}`);
+				res.json(update);
+			}
+		);
+	} else {
+		Poll.findOneAndUpdate(
+			{ _id: req.params.id },
+			{
+				name: req.body.name,
+				options: req.body.options
+			},
+			(err, update) => {
+				if (err) res.send(`Error in voting on poll: ${err}`);
+				res.json(update);
+			}
+		);
+	}
 });
 
 app.delete('/api/polls/:id', (req, res) => {
