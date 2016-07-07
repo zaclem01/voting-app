@@ -19,8 +19,8 @@ class PollEdit extends React.Component {
         this.context = context;
 
         this.handleAddOption = this.handleAddOption.bind(this);
+        this.handleDeleteOption = this.handleDeleteOption.bind(this);
         this.handleNameChange = this.handleNameChange.bind(this);
-        this.handleOptionDelete = this.handleOptionDelete.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -47,12 +47,12 @@ class PollEdit extends React.Component {
     	this.setState({ rowCount: this.state.rowCount += 1 });
     }
 
-    handleNameChange(e) {
-    	this.setState({ name: e.target.value });
+    handleDeleteOption() {
+        this.setState({ rowCount: this.state.rowCount -= 1 });
     }
 
-    handleOptionDelete() {
-
+    handleNameChange(e) {
+    	this.setState({ name: e.target.value });
     }
 
     handleSubmit() {
@@ -107,6 +107,15 @@ class PollEdit extends React.Component {
 						key={`option-${i}`}
 					/>
 	    		);
+	    		if (i === this.state.rowCount - 1) {
+	                options.push(
+	                    <i 
+	                        className="fa fa-times delete-option-btn"
+	                        onClick={this.handleDeleteOption}
+	                    >
+	                    </i>
+	                );
+	            }
     		}
     	}
         return (
@@ -116,7 +125,7 @@ class PollEdit extends React.Component {
 	        			md={4} mdOffset={4}
 	        			sm={6} smOffset={3}
 	        		>
-	        			<Panel header="Create a poll">
+	        			<Panel header="Edit poll">
 	        				<FormGroup>
 	        					<ControlLabel>Title</ControlLabel>
 	        					<FormControl 
@@ -132,9 +141,14 @@ class PollEdit extends React.Component {
 	        						Add more options
 	        					</Button>
 	        				</FormGroup>
-	        				<Button onClick={this.handleSubmit}>
-	        					Create poll
-	        				</Button>
+	        				<FormGroup>
+	        					<Button onClick={this.handleSubmit}>
+	        						Edit poll
+	        					</Button>
+	        					<Button onClick={() => this.context.router.push(`/${this.props.params.id}`)}>
+	        						Cancel
+	        					</Button>
+	        				</FormGroup>
 	        			</Panel>
 	        		</Col>
         		</Row>

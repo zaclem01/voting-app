@@ -18,12 +18,17 @@ class PollAdd extends React.Component {
         this.context = context;
 
         this.handleAddOption = this.handleAddOption.bind(this);
+        this.handleDeleteOption = this.handleDeleteOption.bind(this);
         this.handleNameChange = this.handleNameChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleAddOption() {
     	this.setState({ rowCount: this.state.rowCount += 1 });
+    }
+
+    handleDeleteOption() {
+        this.setState({ rowCount: this.state.rowCount -= 1 });
     }
 
     handleNameChange(e) {
@@ -69,6 +74,15 @@ class PollAdd extends React.Component {
 					key={`option-${i}`}
 				/>
     		);
+            if (i === this.state.rowCount - 1) {
+                options.push(
+                    <i 
+                        className="fa fa-times delete-option-btn"
+                        onClick={this.handleDeleteOption}
+                    >
+                    </i>
+                );
+            }
     	}
         return (
         	<Grid>
