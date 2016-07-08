@@ -24,7 +24,7 @@ gulp.task('browserify', function() {
 });
 
 gulp.task('browserify-watch', function() {
-	var bundler = watchify(browserify({ entries: 'app/index.js', debug: true }, watchify.args));
+	var bundler = watchify(browserify({ entries: 'client/index.js', debug: true }, watchify.args));
 	bundler.transform(babelify, { 
 		presets: ['es2015', 'react'],
 		plugins: ['transform-object-rest-spread']
@@ -53,14 +53,14 @@ gulp.task('browserify-watch', function() {
 });
 
 gulp.task('sass', function() {
-	return gulp.src('app/stylesheets/styles.scss')
+	return gulp.src('client/stylesheets/styles.scss')
 		.pipe(sass())
 		.pipe(autoprefixer())
 		.pipe(gulp.dest('public/css'));
 });
 
 gulp.task('watch', function() {
-	gulp.watch('app/stylesheets/**/*.scss', ['sass']);
+	gulp.watch('client/stylesheets/**/*.scss', ['sass']);
 });
 
 gulp.task('default', ['sass', 'browserify-watch', 'watch']);

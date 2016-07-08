@@ -11,11 +11,10 @@ let pug = require('pug');
 let React = require('react');
 let ReactDOM = require('react-dom/server');
 let Router = require('react-router');
-let routes = require('./app/routes');
+let routes = require('../client/routes');
 
 // Database requires
 let mongoose = require('mongoose');
-let Poll = require('./models/poll');
 
 let app = express();
 
@@ -33,63 +32,9 @@ app.set('view engine', 'pug');
 app.use(logger('dev'));
 app.use(parser.json({ type: 'application/json' }));
 app.use(parser.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '../public')));
 
-// API endpoints must come before Router matching
-app.get('/api/polls', (req, res) => {
-	Poll.find({}, (err, polls) => {
-		if (err) res.send(`Error in retreiving polls: ${err}`);
-		res.json(polls)
-	});
-});
-
-app.post('/api/polls', (req, res) => {
-	let newPoll = req.body;
-	Poll.create(newPoll, (err, poll) => {
-		if (err) res.send(`Error in creating poll: ${err}`);
-		res.json(poll);
-	})
-});
-
-app.get('/api/polls/:id', (req, res) => {
-	Poll.findOne({ _id: req.params.id }, (err, poll) => {
-		if (err) res.send(`Error in retrieving poll: ${err}`);
-		res.json(poll);
-	});
-});
-
-app.put('/api/polls/:id', (req, res) => {
-	if (req.body.userVote) {
-		Poll.findOneAndUpdate(
-			{ _id: req.params.id, 'options.label': req.body.userVote }, 
-			{ $inc: { 'options.$.value': 1 } },
-			(err, update) => {
-				if (err) res.send(`Error in voting on poll: ${err}`);
-				res.json(update);
-			}
-		);
-	} else {
-		Poll.findOneAndUpdate(
-			{ _id: req.params.id },
-			{
-				name: req.body.name,
-				options: req.body.options
-			},
-			(err, update) => {
-				if (err) res.send(`Error in voting on poll: ${err}`);
-				res.json(update);
-			}
-		);
-	}
-});
-
-app.delete('/api/polls/:id', (req, res) => {
-	Poll.findOneAndRemove({ _id: req.params.id }, (err, poll) => {
-		if (err) res.send(`Error in removing poll: ${err}`);
-		res.json(poll);
-	}
-	)
-});
+require('./routes/routes')(app /*, passport*/);
 
 // Server-side rendering of components
 app.use((req, res) => {
@@ -100,7 +45,7 @@ app.use((req, res) => {
 			res.status(302).redirect(redirectLocation.pathname + redirectLocation.search);
 		} else if (renderProps) {
 			let html = ReactDOM.renderToString(React.createElement(Router.RouterContext, renderProps));
-			let page = pug.renderFile('views/index.pug', { html: html });
+			let page = pug.renderFile('client/views/index.pug', { html: html });
 			res.status(200).send(page);
 		} else {
 			res.status(404).send('Page Not Found');
