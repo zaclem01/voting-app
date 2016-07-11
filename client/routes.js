@@ -11,6 +11,10 @@ import PollView from './components/PollView';
 import PollEdit from './components/PollEdit';
 import PollAdd from './components/PollAdd';
 
+function isLoggedIn() {
+	
+}
+
 export default (
 	<Route component={App}>
 		<Route path='/' component={Home} />

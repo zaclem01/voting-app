@@ -1,7 +1,15 @@
 let Poll = require('../models/poll');
 
-module.exports = function(app /*, passport*/) {
-// API endpoints must come before Router matching
+module.exports = function(app, passport) {
+
+	app.post('/api/signup', passport.authenticate('local-signup'), (req, res) => {
+		res.send();
+	});
+
+	app.post('/api/signin', passport.authenticate('local-signin'), (req, res) => {
+		res.send();
+	});
+
 	app.get('/api/polls', (req, res) => {
 		Poll.find({}, (err, polls) => {
 			if (err) res.send(`Error in retreiving polls: ${err}`);
@@ -53,7 +61,6 @@ module.exports = function(app /*, passport*/) {
 		Poll.findOneAndRemove({ _id: req.params.id }, (err, poll) => {
 			if (err) res.send(`Error in removing poll: ${err}`);
 			res.json(poll);
-		}
-		)
+		});
 	});
 }

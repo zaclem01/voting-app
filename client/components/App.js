@@ -40,7 +40,6 @@ class App extends React.Component {
                 </div>
             );
         } else {
-            console.log('no polls found!')
             return (<div>Loading...</div>);
         }
 	}
