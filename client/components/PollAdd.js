@@ -23,16 +23,6 @@ class PollAdd extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    // componentWillMount() {
-    //     if (!this.props.isAuthed && !this.props.location.state) {
-    //         console.log('redirecting to signin')
-    //         this.context.router.push({
-    //             pathname: '/signin',
-    //             state: { nextLocation: '/create' }
-    //         });
-    //     }
-    // }
-
     handleAddOption() {
     	this.setState({ rowCount: this.state.rowCount += 1 });
     }
@@ -47,7 +37,7 @@ class PollAdd extends React.Component {
 
     handleSubmit() {
     	let newPoll = {
-    		creator: 'Zac',
+    		creator: this.props.user.email,
     		name: this.state.name
     	};
     	let pollOptions = [];

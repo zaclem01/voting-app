@@ -59,13 +59,13 @@ class NavBar extends React.Component {
                                             this.context.router.push('/create');
                                             this.setState({ expanded: false });
                                         }}>
-                                            Create
+                                            Create Poll
                                         </MenuItem>
                                         <MenuItem onClick={() => {
                                             this.context.router.push('/dashboard');
                                             this.setState({ expanded: false });
                                         }}>
-                                            Dashboard
+                                            Manage Polls
                                         </MenuItem>
                                     </NavDropdown>
                                     <NavItem onClick={this.handleLogout}>
