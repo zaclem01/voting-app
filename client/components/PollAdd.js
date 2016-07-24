@@ -23,6 +23,16 @@ class PollAdd extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    // componentWillMount() {
+    //     if (!this.props.isAuthed && !this.props.location.state) {
+    //         console.log('redirecting to signin')
+    //         this.context.router.push({
+    //             pathname: '/signin',
+    //             state: { nextLocation: '/create' }
+    //         });
+    //     }
+    // }
+
     handleAddOption() {
     	this.setState({ rowCount: this.state.rowCount += 1 });
     }
@@ -85,35 +95,35 @@ class PollAdd extends React.Component {
             }
     	}
         return (
-        	<Grid>
-        		<Row>
-	        		<Col 
-	        			md={4} mdOffset={4}
-	        			sm={6} smOffset={3}
-	        		>
-	        			<Panel header="Create a poll">
-	        				<FormGroup>
-	        					<ControlLabel>Title</ControlLabel>
-	        					<FormControl 
-	        						type="text"
-	        						placeholder="Enter name"
-	        						onChange={this.handleNameChange}
-	        					/>
-	        				</FormGroup>
-	        				<FormGroup>
-	        					<ControlLabel>Voting Options</ControlLabel>
-	        					{options}
-	        					<Button onClick={this.handleAddOption}>
-	        						Add more options
-	        					</Button>
-	        				</FormGroup>
-	        				<Button onClick={this.handleSubmit}>
-	        					Create poll
-	        				</Button>
-	        			</Panel>
-	        		</Col>
-        		</Row>
-        	</Grid>
+            <Grid>
+                <Row>
+                    <Col 
+                        md={4} mdOffset={4}
+                        sm={6} smOffset={3}
+                    >
+                        <Panel header="Create a poll">
+                            <FormGroup>
+                                <ControlLabel>Title</ControlLabel>
+                                <FormControl 
+                                    type="text"
+                                    placeholder="Enter name"
+                                    onChange={this.handleNameChange}
+                                />
+                            </FormGroup>
+                            <FormGroup>
+                                <ControlLabel>Voting Options</ControlLabel>
+                                {options}
+                                <Button onClick={this.handleAddOption}>
+                                    Add more options
+                                </Button>
+                            </FormGroup>
+                            <Button onClick={this.handleSubmit}>
+                                Create poll
+                            </Button>
+                        </Panel>
+                    </Col>
+                </Row>
+            </Grid>
         );
     }
 }

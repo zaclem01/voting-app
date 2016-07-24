@@ -55,8 +55,6 @@ app.use((req, res) => {
 		} else if (redirectLocation) {
 			res.status(302).redirect(redirectLocation.pathname + redirectLocation.search);
 		} else if (renderProps) {
-			console.log('authenticated?', req.isAuthenticated());
-			console.log('session', req.session)
 			let html = ReactDOM.renderToString(React.createElement(Router.RouterContext, renderProps));
 			let page = pug.renderFile('client/views/index.pug', { html: html });
 			res.status(200).send(page);

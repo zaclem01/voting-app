@@ -6,17 +6,42 @@ import NavBar from './NavBar';
 class App extends React.Component {
 	constructor(props) {
         super(props);
-        this.state = { polls: [] }
+        this.state = { 
+            polls: [],
+            user: {
+                id: undefined,
+                email: ''
+            }
+        }
     }
 
     componentDidMount() {
-    	$.ajax({
-    		url: '/api/polls',
-    		type: 'GET',
-    		dataType: 'json',
-    	})
+        $.ajax({
+            url: '/api/polls',
+            type: 'GET',
+            dataType: 'json',
+        })
         .done(data => this.setState({ polls: data }))
         .fail((xhr, status, err) => console.error(err.toString()));
+
+        $.ajax({
+            url: '/api/checksession',
+            type: 'GET',
+            dataType: 'json',
+        })
+        .done(data => {
+            if (data.isLoggedIn) {
+                this.setState({ user: data.user })
+            } else {
+                this.setState({ 
+                    user: {
+                        id: undefined,
+                        email: ''
+                    }
+                })
+            }
+        })
+        .fail((xhr, status, err) => console.error(err.toString())); 
     }
 
     componentWillReceiveProps(nextProps) {
@@ -27,6 +52,25 @@ class App extends React.Component {
         })
         .done(data => this.setState({ polls: data }))
         .fail((xhr, status, err) => console.error(err.toString()));
+
+        $.ajax({
+            url: '/api/checksession',
+            type: 'GET',
+            dataType: 'json',
+        })
+        .done(data => {
+            if (data.isLoggedIn) {
+                this.setState({ user: data.user })
+            } else {
+                this.setState({ 
+                    user: {
+                        id: undefined,
+                        email: ''
+                    }
+                })
+            }
+        })
+        .fail((xhr, status, err) => console.error(err.toString())); 
     }
 
 	render() {
@@ -35,7 +79,7 @@ class App extends React.Component {
             // Must clone the child element to add the props
             return (
                 <div>
-                    <NavBar />
+                    <NavBar user={this.state.user} />
                     {React.cloneElement(this.props.children, {...this.state})}
                 </div>
             );

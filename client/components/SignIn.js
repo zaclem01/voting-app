@@ -27,7 +27,13 @@ class SignIn extends React.Component {
     		data: JSON.stringify(user),
     		success: () => {
     			console.log('success!');
-    			this.context.router.push('/dashboard')
+    			if (this.props.location.state) {
+    				this.context.router.push({
+    					pathname: this.props.location.state.nextPathname,
+    				});
+    			} else {
+    				this.context.router.push('/dashboard');
+    			}
     		},
     		error: (xhr, status, err) => {
     			console.log('an error!')

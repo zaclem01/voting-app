@@ -1,5 +1,6 @@
 import React from 'react';
-import { Navbar, Nav, NavItem, Button, Glyphicon } from 'react-bootstrap';
+import $ from 'jquery';
+import { Navbar, Nav, NavDropdown, MenuItem, NavItem, Button, Glyphicon } from 'react-bootstrap';
 import { Link } from 'react-router';
 
 class NavBar extends React.Component {
@@ -9,10 +10,21 @@ class NavBar extends React.Component {
         this.context = context;
 
         this.toggleNav = this.toggleNav.bind(this);
+        this.handleLogout = this.handleLogout.bind(this);
     }
 
     toggleNav() {
         this.setState({ expanded: !this.state.expanded });
+    }
+
+    handleLogout() {
+        $.ajax({
+            url: '/api/logout',
+            type: 'POST',
+            dataType: 'json',
+        })
+        .done(data => this.context.router.push('/'))
+        .fail((xhr, status, err) => console.error(err.toString()));
     }
 
     render() {
@@ -37,33 +49,47 @@ class NavBar extends React.Component {
                         }}>
                             Browse
                         </NavItem>
-                        <NavItem onClick={() => {
-                            this.context.router.push('/create');
-                            this.setState({ expanded: false });
-                        }}>
-                            Create
-                        </NavItem>
-                        <NavItem onClick={() => {
-                            this.context.router.push('/dashboard');
-                            this.setState({ expanded: false });
-                        }}>
-                            Manage
-                        </NavItem>
                     </Nav>
-                    <Nav pullRight>
-                        <NavItem onClick={() => {
-                            this.context.router.push('/signup');
-                            this.setState({ expanded: false });
-                        }}>
-                            Register
-                        </NavItem>
-                        <NavItem onClick={() => {
-                            this.context.router.push('/signin');
-                            this.setState({ expanded: false });
-                        }}>
-                            Login
-                        </NavItem>
-                    </Nav>
+                    {
+                        this.props.user.id ? 
+                            (
+                                <Nav pullRight>
+                                    <NavDropdown title={this.props.user.email}>
+                                        <MenuItem onClick={() => {
+                                            this.context.router.push('/create');
+                                            this.setState({ expanded: false });
+                                        }}>
+                                            Create
+                                        </MenuItem>
+                                        <MenuItem onClick={() => {
+                                            this.context.router.push('/dashboard');
+                                            this.setState({ expanded: false });
+                                        }}>
+                                            Dashboard
+                                        </MenuItem>
+                                    </NavDropdown>
+                                    <NavItem onClick={this.handleLogout}>
+                                        Logout
+                                    </NavItem>
+                                </Nav>
+                            ) :
+                            (
+                                <Nav pullRight>
+                                    <NavItem onClick={() => {
+                                        this.context.router.push('/signup');
+                                        this.setState({ expanded: false });
+                                    }}>
+                                        Register
+                                    </NavItem>
+                                    <NavItem onClick={() => {
+                                        this.context.router.push('/signin');
+                                        this.setState({ expanded: false });
+                                    }}>
+                                        Login
+                                    </NavItem> 
+                                </Nav>
+                            )
+                    }
                 </Navbar.Collapse>
             </Navbar>
         );

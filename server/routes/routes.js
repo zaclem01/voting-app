@@ -10,6 +10,28 @@ module.exports = function(app, passport) {
 		res.send();
 	});
 
+	app.post('/api/logout', (req, res) => {
+		req.logout();
+		res.json({ success: true });
+	});
+
+	app.get('/api/checksession', (req, res) => {
+		console.log(req.user)
+		if (!req.isAuthenticated()) {
+			res.json({ 
+				isLoggedIn: false
+			})
+		} else {
+			res.json({ 
+				isLoggedIn: true,
+				user: {
+					id: req.user.id,
+					email: req.user.email
+				}
+			});
+		}
+	})
+
 	app.get('/api/polls', (req, res) => {
 		Poll.find({}, (err, polls) => {
 			if (err) res.send(`Error in retreiving polls: ${err}`);
