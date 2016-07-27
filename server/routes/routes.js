@@ -1,4 +1,5 @@
 let Poll = require('../models/poll');
+let User = require('../models/user');
 
 module.exports = function(app, passport) {
 
@@ -16,7 +17,6 @@ module.exports = function(app, passport) {
 	});
 
 	app.get('/api/checksession', (req, res) => {
-		console.log(req.user)
 		if (!req.isAuthenticated()) {
 			res.json({ 
 				isLoggedIn: false
@@ -43,6 +43,21 @@ module.exports = function(app, passport) {
 		let newPoll = req.body;
 		Poll.create(newPoll, (err, poll) => {
 			if (err) res.send(`Error in creating poll: ${err}`);
+			// User.findOne( { email: req.user.email }, (err, user) => {
+			// 	user.poll_ids.push(poll._id);
+			// 	user.save();
+			// });
+			User.findOneAndUpdate(
+				{ email: req.user.email },
+				{ 
+					$push: { 
+						poll_ids: poll._id 
+					}
+				},
+				(err, doc) => {
+					if (err) console.log(err)
+				}
+			);
 			res.json(poll);
 		})
 	});
