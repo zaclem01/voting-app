@@ -24,7 +24,6 @@ class PollView extends React.Component {
 
         this.handleVoteSelect = this.handleVoteSelect.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleDelete = this.handleDelete.bind(this);
     }
 
     componentDidMount() {
@@ -81,24 +80,6 @@ class PollView extends React.Component {
     	});
     }
 
-    handleDelete() {
-        let pollId = this.props.params.id;
-        let remove = confirm('Are you sure you want to delete this poll?');
-
-        if (remove) {
-            $.ajax({
-                url: `/api/polls/${pollId}`,
-                type: 'DELETE',
-                success: (data) => {
-                    this.context.router.push('browse');
-                },
-                error: (xhr, status, err) => {
-                    console.error(err.toString());
-                }
-            });
-        }
-    }
-
     render() {
         return (
         	<Grid>
@@ -142,14 +123,6 @@ class PollView extends React.Component {
                                 onClick={this.handleSubmit}
                             >
                                 Submit
-                            </Button>
-                            <Button 
-                                className="delete-btn"
-                                bsStyle="danger"
-                                bsSize="large"
-                                onClick={this.handleDelete}
-                            >
-                                Delete Poll
                             </Button>
 	        				<h3 className="share-header">
 				        		Share this poll with your friends
