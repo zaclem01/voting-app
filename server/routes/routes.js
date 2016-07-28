@@ -42,11 +42,6 @@ module.exports = function(app, passport) {
 	app.post('/api/polls', (req, res) => {
 		let newPoll = req.body;
 		Poll.create(newPoll, (err, poll) => {
-			if (err) res.send(`Error in creating poll: ${err}`);
-			// User.findOne( { email: req.user.email }, (err, user) => {
-			// 	user.poll_ids.push(poll._id);
-			// 	user.save();
-			// });
 			User.findOneAndUpdate(
 				{ email: req.user.email },
 				{ 
@@ -99,5 +94,13 @@ module.exports = function(app, passport) {
 			if (err) res.send(`Error in removing poll: ${err}`);
 			res.json(poll);
 		});
+	});
+
+	app.get('/api/users/:id', (req, res) => {
+		User.findById(req.params.id, (err, user) => {
+			if (err) console.log(`Error in retrieving user: ${err}`);
+			console.log(user);
+			res.json(user);
+		})
 	});
 }
