@@ -27,7 +27,7 @@ class Dashboard extends React.Component {
     
     render() {
 		let filteredPolls = this.props.polls.filter(poll => {
-			return poll.creator === this.props.user.email;
+			return poll.creator === this.props.user.username;
 		});
 		if (filteredPolls.length > 0) {
 			return (
@@ -44,15 +44,21 @@ class Dashboard extends React.Component {
 					        					<Row key={poll._id}>
 					        						<Col 
 					        							sm={8}
-						        						onClick={() => 
-							        						this.context.router.push(`/${poll._id}`)
-							        					}>
+						        						onClick={() => this.context.router.push(`/${poll._id}`)}
+							        					>
 					        							{poll.name}
 					        						</Col>
-					        						<Col sm={4}>
+					        						<Col sm={2}>
 						        						<i 
 						        							className="fa fa-times"
 						        							onClick={() => this.handleDelete(poll._id)}
+						        						>
+						        						</i>
+								                    </Col>
+								                    <Col sm={2}>
+						        						<i 
+						        							className="fa fa-pencil-square-o"
+						        							onClick={() => this.context.router.push(`/${poll._id}/edit`)}
 						        						>
 						        						</i>
 								                    </Col>

@@ -12,11 +12,11 @@ class SignIn extends React.Component {
     }
 
     handleSubmit() {
-    	let email = ReactDOM.findDOMNode(this.refs.email).value;
+    	let username = ReactDOM.findDOMNode(this.refs.username).value;
     	let password = ReactDOM.findDOMNode(this.refs.password).value;
 
     	let user = {
-    		email: email,
+    		username: username,
     		password: password
     	};
 
@@ -47,11 +47,11 @@ class SignIn extends React.Component {
         	<Form>
         		<FormGroup>
         			<ControlLabel>
-        				Email
+        				Username
         			</ControlLabel>
         			<FormControl 
-        				type="email"
-        				ref="email"
+        				type="text"
+        				ref="username"
         			/>
         		</FormGroup>
         		<FormGroup>

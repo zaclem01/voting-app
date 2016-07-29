@@ -54,7 +54,7 @@ class NavBar extends React.Component {
                         this.props.user.id ? 
                             (
                                 <Nav pullRight>
-                                    <NavDropdown title={this.props.user.email}>
+                                    <NavDropdown title={this.props.user.username}>
                                         <MenuItem onClick={() => {
                                             this.context.router.push('/create');
                                             this.setState({ expanded: false });

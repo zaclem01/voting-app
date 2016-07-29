@@ -10,7 +10,7 @@ class App extends React.Component {
             polls: [],
             user: {
                 id: undefined,
-                email: ''
+                username: ''
             }
         }
     }
@@ -36,7 +36,7 @@ class App extends React.Component {
                 this.setState({ 
                     user: {
                         id: undefined,
-                        email: ''
+                        username: ''
                     }
                 })
             }
@@ -65,7 +65,7 @@ class App extends React.Component {
                 this.setState({ 
                     user: {
                         id: undefined,
-                        email: ''
+                        username: ''
                     }
                 })
             }

@@ -18,7 +18,7 @@ function checkAuth(nextState, replace, callback) {
 	$.ajax({
         url: '/api/checksession',
         type: 'GET',
-        dataType: 'json',
+        dataType: 'json'
     })
     .done(data => {
     	console.log('is user logged in?')

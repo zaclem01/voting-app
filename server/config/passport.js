@@ -5,17 +5,11 @@ let User = require('../models/user');
 module.exports = (passport) => {
 	passport.serializeUser((user, done) => done(null, user.id));
 	passport.deserializeUser((id, done) => {
-		User.findById(id, (err, user) => done(err, { id: id, email: user.email }));
+		User.findById(id, (err, user) => done(err, { id: id, username: user.username }));
 	});
 
-	passport.use('local-signup', new LocalStrategy(
-		{
-			usernameField : 'email',
-	        passwordField : 'password',
-	        passReqToCallback : true
-		},
-		(req, email, password, done) => {
-			User.findOne({ email: email }, (err, user) => {
+	passport.use('local-signup', new LocalStrategy((username, password, done) => {
+			User.findOne({ username: username }, (err, user) => {
 				if (err) { 
 					console.err(err);
 					return done(err); 
@@ -26,7 +20,7 @@ module.exports = (passport) => {
 				} else {
 					let newUser = new User();
 					
-					newUser.email = email;
+					newUser.username = username;
 					newUser.password = password;
 
 					newUser.save(err => {
@@ -38,20 +32,14 @@ module.exports = (passport) => {
 		}
 	));
 
-	passport.use('local-signin', new LocalStrategy(
-	{
-		usernameField : 'email',
-        passwordField : 'password',
-        passReqToCallback : true
-	},
-	(req, email, password, done) => {
-		User.findOne({ email: email }, (err, user) => {
+	passport.use('local-signin', new LocalStrategy((username, password, done) => {
+		User.findOne({ username: username }, (err, user) => {
 			if (err) {
 				console.error(err);
 				return done(err);
 			}
 			if (!user || !user.validPassword(password)) {
-				console.log('Incorrect email or password');
+				console.log('Incorrect username or password');
 				return done(null, false);
 			}
 			return done(null, user);

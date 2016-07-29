@@ -17,6 +17,7 @@ module.exports = function(app, passport) {
 	});
 
 	app.get('/api/checksession', (req, res) => {
+		console.log(req.user)
 		if (!req.isAuthenticated()) {
 			res.json({ 
 				isLoggedIn: false
@@ -26,7 +27,7 @@ module.exports = function(app, passport) {
 				isLoggedIn: true,
 				user: {
 					id: req.user.id,
-					email: req.user.email
+					username: req.user.username
 				}
 			});
 		}
@@ -34,7 +35,7 @@ module.exports = function(app, passport) {
 
 	app.get('/api/polls', (req, res) => {
 		Poll.find({}, (err, polls) => {
-			if (err) res.send(`Error in retreiving polls: ${err}`);
+			if (err) console.error(`Error in retreiving polls: ${err}`);
 			res.json(polls)
 		});
 	});
@@ -43,7 +44,7 @@ module.exports = function(app, passport) {
 		let newPoll = req.body;
 		Poll.create(newPoll, (err, poll) => {
 			User.findOneAndUpdate(
-				{ email: req.user.email },
+				{ username: req.user.username },
 				{ 
 					$push: { 
 						poll_ids: poll._id 
@@ -59,7 +60,7 @@ module.exports = function(app, passport) {
 
 	app.get('/api/polls/:id', (req, res) => {
 		Poll.findOne({ _id: req.params.id }, (err, poll) => {
-			if (err) res.send(`Error in retrieving poll: ${err}`);
+			if (err) console.error(`Error in retrieving poll: ${err}`);
 			res.json(poll);
 		});
 	});
@@ -70,7 +71,7 @@ module.exports = function(app, passport) {
 				{ _id: req.params.id, 'options.label': req.body.userVote }, 
 				{ $inc: { 'options.$.value': 1 } },
 				(err, update) => {
-					if (err) res.send(`Error in voting on poll: ${err}`);
+					if (err) console.error(`Error in voting on poll: ${err}`);
 					res.json(update);
 				}
 			);
@@ -82,7 +83,7 @@ module.exports = function(app, passport) {
 					options: req.body.options
 				},
 				(err, update) => {
-					if (err) res.send(`Error in voting on poll: ${err}`);
+					if (err) console.error(`Error in voting on poll: ${err}`);
 					res.json(update);
 				}
 			);
@@ -91,14 +92,14 @@ module.exports = function(app, passport) {
 
 	app.delete('/api/polls/:id', (req, res) => {
 		Poll.findOneAndRemove({ _id: req.params.id }, (err, poll) => {
-			if (err) res.send(`Error in removing poll: ${err}`);
+			if (err) console.error(`Error in removing poll: ${err}`);
 			res.json(poll);
 		});
 	});
 
 	app.get('/api/users/:id', (req, res) => {
 		User.findById(req.params.id, (err, user) => {
-			if (err) console.log(`Error in retrieving user: ${err}`);
+			if (err) console.error(`Error in retrieving user: ${err}`);
 			console.log(user);
 			res.json(user);
 		})

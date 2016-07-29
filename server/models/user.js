@@ -1,7 +1,7 @@
 let mongoose = require('mongoose');
 
 let userSchema = new mongoose.Schema({
-	email: String,
+	username: String,
 	password: String,
 	poll_ids: [] 
 });
