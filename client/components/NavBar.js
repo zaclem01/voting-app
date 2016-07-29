@@ -29,7 +29,7 @@ class NavBar extends React.Component {
 
     render() {
         return (
-        	<Navbar fluid inverse 
+        	<Navbar fluid 
                 expanded={this.state.expanded}
                 onToggle={this.toggleNav}
             >

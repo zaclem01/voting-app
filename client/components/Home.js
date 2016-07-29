@@ -5,9 +5,17 @@ import { Link } from 'react-router';
 import Chart from '../utils/Chart';
 
 class Home extends React.Component {
-	constructor(props) {
+	constructor(props, context) {
         super(props);
+        this.context = context;
     }
+
+    componentDidMount() {
+    	if (this.props.user.id) {
+    		this.context.router.push('browse')
+    	}
+    }
+
 	render() {
 		let { polls } = this.props;
 		let lastPoll = polls[polls.length - 1];
@@ -61,5 +69,9 @@ class Home extends React.Component {
 		);
 	}
 }
+
+Home.contextTypes = {
+  router: React.PropTypes.object.isRequired
+};
 
 export default Home;

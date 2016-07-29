@@ -20,14 +20,16 @@ module.exports = function(app, passport) {
 		console.log(req.user)
 		if (!req.isAuthenticated()) {
 			res.json({ 
-				isLoggedIn: false
+				isLoggedIn: false,
+				ip: req.ip
 			})
 		} else {
 			res.json({ 
 				isLoggedIn: true,
 				user: {
 					id: req.user.id,
-					username: req.user.username
+					username: req.user.username,
+					ip: req.ip
 				}
 			});
 		}
@@ -66,10 +68,13 @@ module.exports = function(app, passport) {
 	});
 
 	app.put('/api/polls/:id', (req, res) => {
+		console.log(req.body)
 		if (req.body.userVote) {
+			let voted = [req.body.ip];
+			if (req.body.id) voted.push(req.body.id);
 			Poll.findOneAndUpdate(
 				{ _id: req.params.id, 'options.label': req.body.userVote }, 
-				{ $inc: { 'options.$.value': 1 } },
+				{ $inc: { 'options.$.value': 1 }, $push: { voters: { $each: voted } } },
 				(err, update) => {
 					if (err) console.error(`Error in voting on poll: ${err}`);
 					res.json(update);

@@ -38,7 +38,8 @@ class PollView extends React.Component {
 		        	date: data.date, 
 		        	creator: data.creator, 
 		        	name: data.name, 
-		        	options: data.options 
+		        	options: data.options,
+                    voters: data.voters
 		        });
     		},
     		error: (xhr, status, err) => {
@@ -52,32 +53,37 @@ class PollView extends React.Component {
     }
 
     handleSubmit() {
-    	let pollId = this.props.params.id;
-    	let vote = this.state.userVote || this.state.options[0].label;
+        console.log(this.props.user)
+        if (this.state.voters.indexOf(this.props.user.id) === -1 && this.state.voters.indexOf(this.props.user.ip) === -1) {
+        	let pollId = this.props.params.id;
+        	let vote = this.state.userVote || this.state.options[0].label;
 
-    	const previousVotes = this.state.options;
-    	const newVotes = this.state.options.map((option) => {
-    		if (option.label !== vote) {
-    			return option;
-    		} else {
-    			return { label: option.label, value: option.value += 1 };
-    		}
-    	});
-    	console.log('newVotes ' , newVotes);
-    	this.setState({ options: newVotes });
+        	const previousVotes = this.state.options;
+        	const newVotes = this.state.options.map((option) => {
+        		if (option.label !== vote) {
+        			return option;
+        		} else {
+        			return { label: option.label, value: option.value += 1 };
+        		}
+        	});
+        	console.log('newVotes ' , newVotes);
+        	this.setState({ options: newVotes });
 
-    	$.ajax({
-    		url: `/api/polls/${pollId}`,
-    		type: 'PUT',
-    		data: { userVote: vote },
-    		success: (data) => {
-    			console.log('success');
-    		},
-    		error: (xhr, status, err) => {
-    			console.error(err.toString());
-    			this.setState({ options: previousVotes });
-    		}
-    	});
+        	$.ajax({
+        		url: `/api/polls/${pollId}`,
+        		type: 'PUT',
+        		data: { userVote: vote, ...this.props.user },
+        		success: (data) => {
+        			this.context.router.push('browse');
+        		},
+        		error: (xhr, status, err) => {
+        			console.error(err.toString());
+        			this.setState({ options: previousVotes });
+        		}
+        	});
+        } else {
+            alert('Cannot vote twice!')
+        }
     }
 
     render() {
@@ -129,22 +135,25 @@ class PollView extends React.Component {
 				        	</h3>
 				        	<div className="share-btn-group">
 					        	<Button 
-					        		className="share-btn"
+					        		className="facebook-btn share-btn"
 					        		bsSize="large"
+                                    href={`http://www.facebook.com/sharer.php?u=localhost%3A3000${this.props.location.pathname}&t=${this.state.name}`}
 					        	>
-					        		Facebook
+					        		<i className="fa fa-facebook"></i>&nbsp;&nbsp;&nbsp;Facebook
 					        	</Button>
 					        	<Button 
-					        		className="share-btn"
+					        		className="twitter-btn share-btn"
 					        		bsSize="large"
+                                    href={'http://twitter.com/intent/tweet?text=' + encodeURIComponent(`localhost:3000${this.props.location.pathname}`)}
 					        	>
-					        		Twitter
+					        		<i className="fa fa-twitter"></i>&nbsp;&nbsp;&nbsp;&nbsp;Twitter
 					        	</Button>
 					        	<Button 
-					        		className="share-btn"
+					        		className="google-btn share-btn"
 					        		bsSize="large"
+                                    href={'https://plus.google.com/share?url=' + encodeURIComponent(`localhost:3000${this.props.location.pathname}`)}
 					        	>
-					        		Google+
+					        		<i className="fa fa-google-plus"></i>&nbsp;&nbsp;&nbsp;Google+
 					        	</Button>
 					        </div>
         				</div>

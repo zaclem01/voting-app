@@ -6,7 +6,7 @@ class Poll extends React.Component {
     }
     render() {
         return (
-        	<div>{this.props.children}</div>
+        	<div>{React.cloneElement(this.props.children, {...this.props})}</div>
         );
     }
 }

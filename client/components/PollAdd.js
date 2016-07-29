@@ -38,7 +38,8 @@ class PollAdd extends React.Component {
     handleSubmit() {
     	let newPoll = {
     		creator: this.props.user.username,
-    		name: this.state.name
+    		name: this.state.name,
+            voters: [this.props.user.id, this.props.user.ip]
     	};
     	let pollOptions = [];
     	for (let i = 0; i < this.state.rowCount; i++) {

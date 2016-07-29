@@ -102,12 +102,12 @@ class PollsList extends React.Component {
     render() {
         return (
         	<Grid>
-        	<Row className="browse-header">
+        	<Row className="polls-list-header">
         		<Col md={3} xs={12}>
         			<h3>Browse Polls</h3>
         		</Col>
         		<Col 
-        			className="browse-header-form" 
+        			className="polls-list-header-form" 
         			lg={6} lgOffset={3} 
         			md={9}
         			xs={12}
@@ -139,9 +139,9 @@ class PollsList extends React.Component {
 	        					header={poll.name}
 	        					onClick={() => this.context.router.push(`/${poll._id}`)}
 	        				>
-	        					<h4>
+	        					<p>
 	        						created by: {poll.creator}
-	        					</h4>
+	        					</p>
                                 <div className="polls-list-chart">
     	        					<Chart data={poll.options} />
                                 </div>
