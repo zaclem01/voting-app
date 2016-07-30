@@ -5,6 +5,7 @@ $xs-screen-width: 480px;
 $primary-color: #512DA8;
 $secondary-color: #D1C4E9;
 $accent-color: #009688;
+$important-color: #FF5722;
 $primary-text-color: #FFFFFF;
 $secondary-text-color: #727272;
 
@@ -13,7 +14,8 @@ $secondary-text-color: #727272;
 */
 .panel-default {
 	.panel-heading {
-		background: #D1C4E9;
+		background: $primary-color;
+		color: $primary-text-color;
 		font-size: 1.25em;
 		font-weight: bold;
 	}
@@ -43,12 +45,96 @@ $secondary-text-color: #727272;
 }
 
 /*
+========== Dashboard Component ==========
+*/
+.dashboard-no-polls {
+	color: $secondary-text-color;
+	font-size: 20px;
+	font-weight: bold;
+	margin-top: 40px;
+	text-align: center;
+}
+
+.dashboard-poll-option {
+	font-size: 20px;
+	&:hover {
+		cursor: pointer;
+		font-weight: bold;
+	}
+}
+
+.dashboard-poll-title {
+	color: $secondary-text-color;
+	font-weight: bold;
+}
+
+/*
 ========== Home Component ==========
 */
+.home-callout {
+	color: $primary-color;
+	font-weight: bold;
+	text-align: center;
+}
+
+.home-callout-secondary, .home-poll-example-title {
+	color: $secondary-text-color;
+	font-weight: bold;
+}
+
 .home-chart {
 	.chart {
 		height: 500px;
 	}
+	&:hover {
+		cursor: pointer;
+	}
+}
+
+.home-navigation, .home-poll-example {
+	text-align: center;
+}
+
+.home-poll-example-title {
+	margin-top: 40px;
+}
+
+/*
+========== PollAdd/Edit Component ==========
+*/
+.poll-add-edit-btn {
+	width: 100%;
+}
+
+.poll-add-edit-label {
+	color: $secondary-text-color;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.poll-add-edit-options-btn, .poll-add-edit-submit-btn, .poll-add-edit-cancel-btn {
+	border: none;
+	color: $primary-text-color;
+	font-size: 16px;
+	font-weight: bold;
+	height: 40px;
+}
+
+.poll-add-edit-options-btn {
+	background: $accent-color;
+}
+
+.poll-add-edit-submit-btn, .poll-add-edit-cancel-btn {
+	background: $important-color;
+}
+
+.poll-add-edit-delete-option-btn {
+	position: relative;
+	color: $important-color;
+	float: right;
+	font-size: 20px;
+	right: 10;
+	top: -25;
 }
 
 /*
@@ -170,13 +256,15 @@ $view-width: 100%;
 }
 
 /*
-========== PollEdit Component ==========
+========== SignIn/SignUp Components ==========
 */
-.delete-option-btn {
-	position: relative;
-	float: right;
-	right: 10;
-	top: -25;
+.signin-btn, .signup-btn {
+	background: $accent-color;
+	border: none;
+	color: $primary-text-color;
+	font-size: 16px;
+	font-weight: bold;
+
 }
 
 /*

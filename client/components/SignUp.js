@@ -1,7 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
-import { Form, FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
+import { 
+    Grid, Row, Col, 
+    Form, FormGroup, FormControl, 
+    ControlLabel, Button 
+} from 'react-bootstrap';
 
 class SignUp extends React.Component {
     constructor(props, context) {
@@ -38,29 +42,38 @@ class SignUp extends React.Component {
 
     render() {
         return (
-        	<Form>
-        		<FormGroup>
-        			<ControlLabel>
-        				Username
-        			</ControlLabel>
-        			<FormControl 
-        				type="text"
-        				ref="username"
-        			/>
-        		</FormGroup>
-        		<FormGroup>
-        			<ControlLabel>
-        				Password
-        			</ControlLabel>
-        			<FormControl 
-        				type="password"
-        				ref="password"
-        			/>
-        		</FormGroup>
-        		<Button onClick={this.handleSubmit}>
-        			Submit
-        		</Button>
-        	</Form>
+            <Grid>
+                <Row>
+                    <Col xs={6} xsOffset={3}>
+                    	<Form>
+                    		<FormGroup>
+                    			<ControlLabel>
+                    				Username
+                    			</ControlLabel>
+                    			<FormControl 
+                    				type="text"
+                    				ref="username"
+                    			/>
+                    		</FormGroup>
+                    		<FormGroup>
+                    			<ControlLabel>
+                    				Password
+                    			</ControlLabel>
+                    			<FormControl 
+                    				type="password"
+                    				ref="password"
+                    			/>
+                    		</FormGroup>
+                    		<Button 
+                                className="signup-btn"
+                                onClick={this.handleSubmit}
+                            >
+                    			Register
+                    		</Button>
+                    	</Form>
+                    </Col>
+                </Row>
+            </Grid>
         );
     }
 }

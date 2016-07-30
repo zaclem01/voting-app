@@ -46,18 +46,20 @@ class Dashboard extends React.Component {
 					        							sm={8}
 						        						onClick={() => this.context.router.push(`/${poll._id}`)}
 							        					>
-					        							{poll.name}
+					        							<span className="dashboard-poll-title">
+					        								{poll.name}
+					        							</span>
 					        						</Col>
 					        						<Col sm={2}>
 						        						<i 
-						        							className="fa fa-times"
+						        							className="dashboard-poll-option fa fa-trash-o"
 						        							onClick={() => this.handleDelete(poll._id)}
 						        						>
 						        						</i>
 								                    </Col>
 								                    <Col sm={2}>
 						        						<i 
-						        							className="fa fa-pencil-square-o"
+						        							className="dashboard-poll-option fa fa-pencil-square-o"
 						        							onClick={() => this.context.router.push(`/${poll._id}/edit`)}
 						        						>
 						        						</i>
@@ -72,7 +74,11 @@ class Dashboard extends React.Component {
 	            </Grid>
 	        );   
 		} else {
-        	return (<div>No polls created yet</div>);
+        	return (
+        		<div className="dashboard-no-polls">
+        			No polls created yet
+        		</div>
+        	);
     	}
 	}
 }

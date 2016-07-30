@@ -78,7 +78,7 @@ class PollAdd extends React.Component {
             if (i === this.state.rowCount - 1) {
                 options.push(
                     <i 
-                        className="fa fa-times delete-option-btn"
+                        className="poll-add-edit-delete-option-btn fa fa-times"
                         onClick={this.handleDeleteOption}
                     >
                     </i>
@@ -94,7 +94,9 @@ class PollAdd extends React.Component {
                     >
                         <Panel header="Create a poll">
                             <FormGroup>
-                                <ControlLabel>Title</ControlLabel>
+                                <ControlLabel className="poll-add-edit-label">
+                                    Title
+                                </ControlLabel>
                                 <FormControl 
                                     type="text"
                                     placeholder="Enter name"
@@ -102,13 +104,21 @@ class PollAdd extends React.Component {
                                 />
                             </FormGroup>
                             <FormGroup>
-                                <ControlLabel>Voting Options</ControlLabel>
+                                <ControlLabel className="poll-add-edit-label">
+                                    Voting Options
+                                </ControlLabel>
                                 {options}
-                                <Button onClick={this.handleAddOption}>
+                                <Button 
+                                    className="poll-add-edit-btn poll-add-edit-options-btn"
+                                    onClick={this.handleAddOption}
+                                >
                                     Add more options
                                 </Button>
                             </FormGroup>
-                            <Button onClick={this.handleSubmit}>
+                            <Button 
+                                className="poll-add-edit-btn poll-add-edit-submit-btn"
+                                onClick={this.handleSubmit}
+                            >
                                 Create poll
                             </Button>
                         </Panel>
