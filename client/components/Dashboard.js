@@ -14,14 +14,10 @@ class Dashboard extends React.Component {
         if (remove) {
             $.ajax({
                 url: `/api/polls/${id}`,
-                type: 'DELETE',
-                success: data => {
-                	this.context.router.push('dashboard');
-                },
-                error: (xhr, status, err) => {
-                    console.error(err.toString());
-                }
-            });
+                type: 'DELETE'
+            })
+            .done(data => this.context.router.push('dashboard'))
+            .fail((xhr, status, err) => console.error(err.toString()));
         }
     }
     
