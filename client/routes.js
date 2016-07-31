@@ -14,14 +14,12 @@ import PollEdit from './components/PollEdit';
 import PollAdd from './components/PollAdd';
 
 function checkAuth(nextState, replace, callback) {
-	console.log('checking shit out')
 	$.ajax({
         url: '/api/checksession',
         type: 'GET',
         dataType: 'json'
     })
     .done(data => {
-    	console.log('is user logged in?')
     	if (!data.isLoggedIn) {
     		replace({
     			pathname: '/signin',
