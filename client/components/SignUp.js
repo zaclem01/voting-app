@@ -30,6 +30,7 @@ class SignUp extends React.Component {
     		type: 'POST',
     		contentType: 'application/json',
     		data: JSON.stringify(user)
+        })
         .done(() => this.context.router.push('browse'))
         .fail(() => this.setState({ error: 'Username already in use' }));
     }
