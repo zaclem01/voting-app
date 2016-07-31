@@ -29,20 +29,16 @@ class SignIn extends React.Component {
     		url: '/api/signin',
     		type: 'POST',
     		contentType: 'application/json',
-    		data: JSON.stringify(user),
-    		success: () => {
-    			if (this.props.location.state) {
-    				this.context.router.push({
-    					pathname: this.props.location.state.nextPathname,
-    				});
-    			} else {
-    				this.context.router.push('dashboard');
-    			}
-    		},
-    		error: (xhr, status, err) => {
-    			this.setState({ error: 'Incorrect username or password' });
-    		}
-    	});
+    		data: JSON.stringify(user)
+    	})
+        .done(() => {
+            if (this.props.location.state) {
+                this.context.router.push(this.props.location.state.nextPathname);
+            } else {
+                this.context.router.push('dashboard');
+            }
+        })
+        .fail(() => this.setState({ error: 'Incorrect username or password' }));
     }
 
     render() {
