@@ -54,14 +54,10 @@ class PollAdd extends React.Component {
     		url: '/api/polls',
     		type: 'POST',
     		contentType: 'application/json',
-    		data: JSON.stringify(newPoll),
-    		success: () => {
-    			this.context.router.push('browse');
-    		},
-    		error: (xhr, status, err) => {
-    			console.error(err.toString());
-    		}
-    	});
+    		data: JSON.stringify(newPoll)
+    	})
+        .done(() => this.context.router.push('browse'))
+        .fail((xhr, status, err) => console.error(err.toString()));
     }
 
     render() {
