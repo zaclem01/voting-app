@@ -15,7 +15,7 @@ class Dashboard extends React.Component {
             $.ajax({
                 url: `/api/polls/${id}`,
                 type: 'DELETE',
-                success: (data) => {
+                success: data => {
                 	this.context.router.push('dashboard');
                 },
                 error: (xhr, status, err) => {
