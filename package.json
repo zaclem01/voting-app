@@ -4,7 +4,7 @@
   "description": "A simple full functioning voting app",
   "main": "server.js",
   "scripts": {
-    "build": "gulp",
+    "prestart": "gulp",
     "start": "node server/server.js"
   },
   "repository": {
