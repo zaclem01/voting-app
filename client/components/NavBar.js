@@ -21,7 +21,7 @@ class NavBar extends React.Component {
         $.ajax({
             url: '/api/logout',
             type: 'POST',
-            dataType: 'json',
+            dataType: 'json'
         })
         .done(data => this.context.router.push('/'))
         .fail((xhr, status, err) => console.error(err.toString()));
@@ -44,7 +44,7 @@ class NavBar extends React.Component {
                 <Navbar.Collapse>
                     <Nav>
                         <NavItem onClick={() => {
-                            this.context.router.push('/browse');
+                            this.context.router.push('browse');
                             this.setState({ expanded: false });
                         }}>
                             Browse
@@ -56,13 +56,13 @@ class NavBar extends React.Component {
                                 <Nav pullRight>
                                     <NavDropdown title={this.props.user.username}>
                                         <MenuItem onClick={() => {
-                                            this.context.router.push('/create');
+                                            this.context.router.push('create');
                                             this.setState({ expanded: false });
                                         }}>
                                             Create Poll
                                         </MenuItem>
                                         <MenuItem onClick={() => {
-                                            this.context.router.push('/dashboard');
+                                            this.context.router.push('dashboard');
                                             this.setState({ expanded: false });
                                         }}>
                                             Manage Polls
@@ -76,13 +76,13 @@ class NavBar extends React.Component {
                             (
                                 <Nav pullRight>
                                     <NavItem onClick={() => {
-                                        this.context.router.push('/signup');
+                                        this.context.router.push('signup');
                                         this.setState({ expanded: false });
                                     }}>
                                         Register
                                     </NavItem>
                                     <NavItem onClick={() => {
-                                        this.context.router.push('/signin');
+                                        this.context.router.push('signin');
                                         this.setState({ expanded: false });
                                     }}>
                                         Login
