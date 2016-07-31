@@ -29,18 +29,16 @@ class PollEdit extends React.Component {
     	$.ajax({
     		url: `/api/polls/${pollId}`,
     		dataType: 'json',
-    		type: 'GET',
-    		success: (data) => {
-    			this.setState(this.state = {
-    				rowCount: data.options.length,
-		        	name: data.name, 
-		        	options: data.options 
-		        });
-    		},
-    		error: (xhr, status, err) => {
-    			console.error(err.toString());
-    		}
-    	});
+    		type: 'GET'
+    	})
+        .done(
+            data => this.setState(this.state = {
+                rowCount: data.options.length,
+                name: data.name, 
+                options: data.options 
+            })
+        )
+        .fail((xhr, status, err) => console.error(err.toString()));
     }
 
     handleAddOption() {
