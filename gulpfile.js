@@ -10,7 +10,7 @@ var babelify = require('babelify');
 var watchify = require('watchify');
 
 gulp.task('browserify', function() {
-	return browserify({ entries: 'app/index.js', debug: true })
+	return browserify({ entries: 'client/index.js', debug: true })
 		.transform(babelify, { 
 			presets: ['es2015', 'react'],
 			plugins: ['transform-object-rest-spread']
