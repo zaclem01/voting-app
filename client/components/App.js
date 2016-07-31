@@ -14,39 +14,19 @@ class App extends React.Component {
                 ip: ''
             }
         }
+
+        this.loadPolls = this.loadPolls.bind(this);
     }
 
     componentDidMount() {
-        $.ajax({
-            url: '/api/polls',
-            type: 'GET',
-            dataType: 'json',
-        })
-        .done(data => this.setState({ polls: data }))
-        .fail((xhr, status, err) => console.error(err.toString()));
-
-        $.ajax({
-            url: '/api/checksession',
-            type: 'GET',
-            dataType: 'json',
-        })
-        .done(data => {
-            if (data.isLoggedIn) {
-                this.setState({ user: data.user })
-            } else {
-                this.setState({ 
-                    user: {
-                        id: undefined,
-                        username: '',
-                        ip: data.ip
-                    }
-                })
-            }
-        })
-        .fail((xhr, status, err) => console.error(err.toString())); 
+        this.loadPolls();
     }
 
     componentWillReceiveProps(nextProps) {
+        this.loadPolls(); 
+    }
+
+    loadPolls() {
         $.ajax({
             url: '/api/polls',
             type: 'GET',
