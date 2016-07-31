@@ -4,25 +4,26 @@ let User = require('../models/user');
 module.exports = function(app, passport) {
 
 	app.post('/api/signup', passport.authenticate('local-signup'), (req, res) => {
-		res.send();
+		res.end();
 	});
 
 	app.post('/api/signin', passport.authenticate('local-signin'), (req, res) => {
-		res.send();
+		res.end();
 	});
 
 	app.post('/api/logout', (req, res) => {
 		req.logout();
+		// Let client know logout has occurred successfully
 		res.json({ success: true });
 	});
 
 	app.get('/api/checksession', (req, res) => {
-		console.log(req.user)
+		// If not authenticated, only return ip (for vote counting)
 		if (!req.isAuthenticated()) {
 			res.json({ 
 				isLoggedIn: false,
 				ip: req.ip
-			})
+			});
 		} else {
 			res.json({ 
 				isLoggedIn: true,
@@ -45,19 +46,8 @@ module.exports = function(app, passport) {
 	app.post('/api/polls', (req, res) => {
 		let newPoll = req.body;
 		Poll.create(newPoll, (err, poll) => {
-			User.findOneAndUpdate(
-				{ username: req.user.username },
-				{ 
-					$push: { 
-						poll_ids: poll._id 
-					}
-				},
-				(err, doc) => {
-					if (err) console.log(err)
-				}
-			);
 			res.json(poll);
-		})
+		});
 	});
 
 	app.get('/api/polls/:id', (req, res) => {
@@ -68,12 +58,15 @@ module.exports = function(app, passport) {
 	});
 
 	app.put('/api/polls/:id', (req, res) => {
-		console.log(req.body)
+		// If there is a vote incoming, increment that vote
+		// Else, there is a new option being added
 		if (req.body.userVote) {
 			let voted = [req.body.ip];
+			// May not be a user logged in.
 			if (req.body.id) voted.push(req.body.id);
 			Poll.findOneAndUpdate(
 				{ _id: req.params.id, 'options.label': req.body.userVote }, 
+				// Increment and add that ip and possibly user id to the voters list
 				{ $inc: { 'options.$.value': 1 }, $push: { voters: { $each: voted } } },
 				(err, update) => {
 					if (err) console.error(`Error in voting on poll: ${err}`);
@@ -105,7 +98,6 @@ module.exports = function(app, passport) {
 	app.get('/api/users/:id', (req, res) => {
 		User.findById(req.params.id, (err, user) => {
 			if (err) console.error(`Error in retrieving user: ${err}`);
-			console.log(user);
 			res.json(user);
 		})
 	});

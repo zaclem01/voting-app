@@ -10,6 +10,7 @@ import {
 class SignIn extends React.Component {
     constructor(props, context) {
         super(props);
+        this.state = { error: '' };
         this.context = context;
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -30,18 +31,16 @@ class SignIn extends React.Component {
     		contentType: 'application/json',
     		data: JSON.stringify(user),
     		success: () => {
-    			console.log('success!');
     			if (this.props.location.state) {
     				this.context.router.push({
     					pathname: this.props.location.state.nextPathname,
     				});
     			} else {
-    				this.context.router.push('/dashboard');
+    				this.context.router.push('dashboard');
     			}
     		},
     		error: (xhr, status, err) => {
-    			console.log('an error!')
-    			console.error(err.toString());
+    			this.setState({ error: 'Incorrect username or password' });
     		}
     	});
     }
@@ -49,6 +48,11 @@ class SignIn extends React.Component {
     render() {
         return (
             <Grid>
+                <Row>
+                    <Col xs={6} xsOffset={3}>
+                        <span className="error-message">{this.state.error ? this.state.error : null}</span>
+                    </Col>
+                </Row>
                 <Row>
                     <Col xs={6} xsOffset={3}>
                     	<Form>

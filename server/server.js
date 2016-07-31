@@ -8,7 +8,6 @@ let parser = require('body-parser');
 
 // Environmental variables
 let port = process.env.PORT || 3000;
-let dbUrl = process.env.MONGOLAB_URI || 'mongodb://localhost:27017/voting-app';
 
 // Server-side rendering setup
 let pug = require('pug');
@@ -20,7 +19,7 @@ let routes = require('../client/routes');
 // Database setup
 let mongoose = require('mongoose');
 
-mongoose.connect(dbUrl, (err) => {
+mongoose.connect(require('./config/database'), (err) => {
 	if (err) console.error('MongoDB connection error');
 	else console.log('Successfully connected to MongoDB');
 });

@@ -10,6 +10,7 @@ import {
 class SignUp extends React.Component {
     constructor(props, context) {
         super(props);
+        this.state = { error: '' };
         this.context = context;
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -30,12 +31,10 @@ class SignUp extends React.Component {
     		contentType: 'application/json',
     		data: JSON.stringify(user),
     		success: () => {
-    			console.log('success!');
-    			this.context.router.push('/browse')
+    			this.context.router.push('browse')
     		},
     		error: (xhr, status, err) => {
-    			console.log('an error!')
-    			console.error(err.toString());
+    			this.setState({ error: 'Username already in use' })
     		}
     	});
     }
@@ -43,6 +42,11 @@ class SignUp extends React.Component {
     render() {
         return (
             <Grid>
+                <Row>
+                    <Col xs={6} xsOffset={3}>
+                        <span className="error-message">{this.state.error ? this.state.error : null}</span>
+                    </Col>
+                </Row>
                 <Row>
                     <Col xs={6} xsOffset={3}>
                     	<Form>

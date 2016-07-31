@@ -258,6 +258,11 @@ $view-width: 100%;
 /*
 ========== SignIn/SignUp Components ==========
 */
+.error-message {
+	color: red;
+	font-weight: bold;
+}
+
 .signin-btn, .signup-btn {
 	background: $accent-color;
 	border: none;
