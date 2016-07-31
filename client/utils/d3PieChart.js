@@ -44,7 +44,7 @@ d3PieChart.update = function(el, props, state) {
 		});
 
 	let arc = this._arc(radius);
-	this._draw(el, state.data, arc)
+	this._draw(el, state.data, arc, props.limit)
 }
 
 d3PieChart._arc = function(radius) {
@@ -59,7 +59,7 @@ d3PieChart._arc = function(radius) {
 	return { arc: arc, labelArc: labelArc };
 }
 
-d3PieChart._draw = function(el, data, arc) {
+d3PieChart._draw = function(el, data, arc, limit) {
 	const width = $(el).width();
 	const height = $(el).height();
 	const radius = Math.min(width, height) / 2;
@@ -91,7 +91,10 @@ d3PieChart._draw = function(el, data, arc) {
 		.html((d, i) => {
 			if (i < 2) {
 				return `<div class="d3-legend-color" style="background:${colors(d.label)};"></div>${d.label}`
-			} else if (i === 2) {
+			} 
+			else if (i > 2 && !limit) {
+				return `<div class="d3-legend-color" style="background:${colors(d.label)};"></div>${d.label}`
+			} else if (i === 2 && limit) {
 				return '<b>cont...</b>';
 			} else return null;
 		});

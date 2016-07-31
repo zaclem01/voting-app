@@ -143,7 +143,7 @@ class PollsList extends React.Component {
 	        						created by: {poll.creator}
 	        					</p>
                                 <div className="polls-list-chart">
-    	        					<Chart data={poll.options} />
+    	        					<Chart data={poll.options} limit={true}/>
                                 </div>
 	        				</Panel>
         				</Col>

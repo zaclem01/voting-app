@@ -160,7 +160,7 @@ class PollView extends React.Component {
         			</Col>
         			<Col md={8} sm={12}>
 		        		<div className="poll-view-chart">
-				        	<Chart data={this.state.options} />
+				        	<Chart data={this.state.options} limit={false}/>
 				        </div>
 			        </Col>
 			        </Row>
