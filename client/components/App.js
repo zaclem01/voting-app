@@ -16,14 +16,17 @@ class App extends React.Component {
         }
 
         this.loadPolls = this.loadPolls.bind(this);
+        this.checkForUser = this.checkForUser.bind(this);
     }
 
     componentDidMount() {
         this.loadPolls();
+        this.checkForUser();
     }
 
     componentWillReceiveProps(nextProps) {
         this.loadPolls(); 
+        this.checkForUser();
     }
 
     loadPolls() {
@@ -34,7 +37,9 @@ class App extends React.Component {
         })
         .done(data => this.setState({ polls: data }))
         .fail((xhr, status, err) => console.error(err.toString()));
+    }
 
+    checkForUser() {
         $.ajax({
             url: '/api/checksession',
             type: 'GET',
