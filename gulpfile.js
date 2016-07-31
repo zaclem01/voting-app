@@ -64,3 +64,5 @@ gulp.task('watch', function() {
 });
 
 gulp.task('default', ['sass', 'browserify-watch', 'watch']);
+
+gulp.task('production', ['sass', 'browserify']);
