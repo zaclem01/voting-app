@@ -18,7 +18,8 @@ class PollView extends React.Component {
         	creator: '', 
         	name: '', 
         	options: [],
-        	userVote: '' 
+        	userVote: '',
+            error: ''
         };
         this.context = context;
 
@@ -31,21 +32,19 @@ class PollView extends React.Component {
     	$.ajax({
     		url: `/api/polls/${pollId}`,
     		dataType: 'json',
-    		type: 'GET',
-    		success: (data) => {
-    			this.setState(this.state = { 
-		        	id: data._id, 
-		        	date: data.date, 
-		        	creator: data.creator, 
-		        	name: data.name, 
-		        	options: data.options,
-                    voters: data.voters
-		        });
-    		},
-    		error: (xhr, status, err) => {
-    			console.error(err.toString());
-    		}
-    	});
+    		type: 'GET'
+    	})
+        .done(
+            data => this.setState({ 
+                id: data._id, 
+                date: data.date, 
+                creator: data.creator, 
+                name: data.name, 
+                options: data.options,
+                voters: data.voters
+            })
+        )
+        .fail((xhr, status, err) => console.error(err.toString()));
     }
 
     handleVoteSelect(e) {
@@ -53,42 +52,43 @@ class PollView extends React.Component {
     }
 
     handleSubmit() {
-        console.log(this.props.user)
         if (this.state.voters.indexOf(this.props.user.id) === -1 && this.state.voters.indexOf(this.props.user.ip) === -1) {
         	let pollId = this.props.params.id;
         	let vote = this.state.userVote || this.state.options[0].label;
 
         	const previousVotes = this.state.options;
-        	const newVotes = this.state.options.map((option) => {
+        	const newVotes = this.state.options.map(option => {
         		if (option.label !== vote) {
         			return option;
         		} else {
         			return { label: option.label, value: option.value += 1 };
         		}
         	});
-        	console.log('newVotes ' , newVotes);
         	this.setState({ options: newVotes });
 
         	$.ajax({
         		url: `/api/polls/${pollId}`,
         		type: 'PUT',
-        		data: { userVote: vote, ...this.props.user },
-        		success: (data) => {
-        			this.context.router.push('browse');
-        		},
-        		error: (xhr, status, err) => {
-        			console.error(err.toString());
-        			this.setState({ options: previousVotes });
-        		}
-        	});
+        		data: { userVote: vote, ...this.props.user }
+        	})
+            .done(data => this.context.router.push('browse'))
+            .fail((xhr, status, err) => {
+                    console.error(err.toString());
+                    this.setState({ options: previousVotes });
+            });
         } else {
-            alert('Cannot vote twice!')
+            this.setState({ error: 'Cannot vote more than once [ip or username]' });
         }
     }
 
     render() {
         return (
         	<Grid>
+                <Row>
+                    <Col xs={6} xsOffset={3}>
+                        <span className="error-message">{this.state.error ? this.state.error : null}</span>
+                    </Col>
+                </Row>
         		<Row className="poll-view-container">
         			<Row>
         			<Col sm={12}>
@@ -109,7 +109,7 @@ class PollView extends React.Component {
 	        						onChange={this.handleVoteSelect}
 	        					>
 	        						{
-	        							this.state.options.map((option) => {
+	        							this.state.options.map(option => {
 	        								return(
 	        									<option
 		        									key={option.label} 
