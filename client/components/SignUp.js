@@ -29,14 +29,9 @@ class SignUp extends React.Component {
     		url: '/api/signup',
     		type: 'POST',
     		contentType: 'application/json',
-    		data: JSON.stringify(user),
-    		success: () => {
-    			this.context.router.push('browse')
-    		},
-    		error: (xhr, status, err) => {
-    			this.setState({ error: 'Username already in use' })
-    		}
-    	});
+    		data: JSON.stringify(user)
+        .done(() => this.context.router.push('browse'))
+        .fail(() => this.setState({ error: 'Username already in use' }));
     }
 
     render() {
