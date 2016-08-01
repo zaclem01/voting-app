@@ -92,7 +92,7 @@ d3PieChart._draw = function(el, data, arc, limit) {
 			if (i < 2) {
 				return `<div class="d3-legend-color" style="background:${colors(d.label)};"></div>${d.label}`
 			} 
-			else if (i > 2 && !limit) {
+			else if (i >= 2 && !limit) {
 				return `<div class="d3-legend-color" style="background:${colors(d.label)};"></div>${d.label}`
 			} else if (i === 2 && limit) {
 				return '<b>cont...</b>';
