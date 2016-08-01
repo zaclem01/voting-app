@@ -31,7 +31,6 @@ class PollsList extends React.Component {
     }
 
     sortPolls(sort) {
-        console.log(this.props.polls)
     	switch(sort) {
     		case 'popularity':
     			return this.props.polls.sort((prev, curr) => {
