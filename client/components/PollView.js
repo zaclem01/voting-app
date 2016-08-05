@@ -89,6 +89,7 @@ class PollView extends React.Component {
     }
 
     render() {
+        let shareLink = encodeURIComponent(`https://pollerize.herokuapp.com${this.props.location.pathname}`);
         return (
         	<Grid>
                 <Row>
@@ -144,21 +145,21 @@ class PollView extends React.Component {
 					        	<Button 
 					        		className="facebook-btn share-btn"
 					        		bsSize="large"
-                                    href={`http://www.facebook.com/sharer.php?u=localhost%3A3000${this.props.location.pathname}&t=${this.state.name}`}
+                                    href={`http://www.facebook.com/sharer.php?u=${shareLink}&t=${this.state.name}`}
 					        	>
 					        		<i className="fa fa-facebook"></i>&nbsp;&nbsp;&nbsp;Facebook
 					        	</Button>
 					        	<Button 
 					        		className="twitter-btn share-btn"
 					        		bsSize="large"
-                                    href={'http://twitter.com/intent/tweet?text=' + encodeURIComponent(`localhost:3000${this.props.location.pathname}`)}
+                                    href={`http://twitter.com/intent/tweet?text=${shareLink}`}
 					        	>
 					        		<i className="fa fa-twitter"></i>&nbsp;&nbsp;&nbsp;&nbsp;Twitter
 					        	</Button>
 					        	<Button 
 					        		className="google-btn share-btn"
 					        		bsSize="large"
-                                    href={'https://plus.google.com/share?url=' + encodeURIComponent(`localhost:3000${this.props.location.pathname}`)}
+                                    href={`https://plus.google.com/share?url=${shareLink}`}
 					        	>
 					        		<i className="fa fa-google-plus"></i>&nbsp;&nbsp;&nbsp;Google+
 					        	</Button>
