@@ -43,6 +43,9 @@ app.use(parser.json({ type: 'application/json' }));
 app.use(parser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, '../public')));
 
+// Trust the Heroku proxy so client IP can be obtained
+app.enable('trust proxy');
+
 // API endpoints must come before Router matching
 require('./routes/routes')(app, passport);
 
