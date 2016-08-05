@@ -18,7 +18,8 @@ class Home extends React.Component {
 
 	render() {
 		let { polls } = this.props;
-		let lastPoll = polls[polls.length - 1];
+		let sortedPolls = polls.sort((prev, curr) => Date.parse(curr.date) - Date.parse(prev.date))
+		let lastPoll = sortedPolls[0];
 		return (
 			<Grid>
 				<Row>
