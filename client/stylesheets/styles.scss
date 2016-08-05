@@ -71,15 +71,14 @@ $secondary-text-color: #727272;
 /*
 ========== Home Component ==========
 */
-.home-callout {
+h2.home-callout, .home-poll-example-title {
 	color: $primary-color;
 	font-weight: bold;
 	text-align: center;
 }
 
-.home-callout-secondary, .home-poll-example-title {
-	color: $secondary-text-color;
-	font-weight: bold;
+p.home-callout {
+	text-align: center;
 }
 
 .home-chart {
