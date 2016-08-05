@@ -42,7 +42,7 @@ class Home extends React.Component {
 					</Col>
 				</Row>
 				<Row>
-					<Col xs={12}>
+					<Col xs={8} xsOffset={2}>
 						<h2 className="home-poll-example home-poll-example-title">
 							Check out this recent poll!
 						</h2>
