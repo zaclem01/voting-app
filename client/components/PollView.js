@@ -20,7 +20,8 @@ class PollView extends React.Component {
         	options: [],
         	userVote: '',
             error: '',
-            message: ''
+            message: '',
+            hasVoted: false
         };
         this.context = context;
 
@@ -42,7 +43,8 @@ class PollView extends React.Component {
                 creator: data.creator, 
                 name: data.name, 
                 options: data.options,
-                voters: data.voters
+                voters: data.voters,
+                hasVoted: !(data.voters.indexOf(this.props.user.id) === -1 && data.voters.indexOf(this.props.user.ip) === -1)
             })
         )
         .fail((xhr, status, err) => console.error(err.toString()));
@@ -53,7 +55,7 @@ class PollView extends React.Component {
     }
 
     handleSubmit() {
-        if (this.state.voters.indexOf(this.props.user.id) === -1 && this.state.voters.indexOf(this.props.user.ip) === -1) {
+        if (!this.state.hasVoted) {
         	let pollId = this.props.params.id;
         	let vote = this.state.userVote || this.state.options[0].label;
 
@@ -74,7 +76,10 @@ class PollView extends React.Component {
         	})
             .done(data => {
                 //this.context.router.push('/${pollId}')
-                this.setState({ message: `Your vote for <${vote}> was successfully cast` })
+                this.setState({ 
+                    message: `Your vote for <${vote}> was successfully cast`,
+                    hasVoted: true 
+                })
             })
             .fail((xhr, status, err) => {
                     console.error(err.toString());
