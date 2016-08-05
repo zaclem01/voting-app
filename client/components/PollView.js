@@ -19,7 +19,8 @@ class PollView extends React.Component {
         	name: '', 
         	options: [],
         	userVote: '',
-            error: ''
+            error: '',
+            message: ''
         };
         this.context = context;
 
@@ -71,10 +72,16 @@ class PollView extends React.Component {
         		type: 'PUT',
         		data: { userVote: vote, ...this.props.user }
         	})
-            .done(data => this.context.router.push('browse'))
+            .done(data => {
+                //this.context.router.push('/${pollId}')
+                this.setState({ message: `Your vote for <${vote}> was successfully cast` })
+            })
             .fail((xhr, status, err) => {
                     console.error(err.toString());
-                    this.setState({ options: previousVotes });
+                    this.setState({ 
+                        options: previousVotes, 
+                        error: 'Error submitting your vote. Please try again.' 
+                    });
             });
         } else {
             this.setState({ error: 'Cannot vote more than once [ip or username]' });
@@ -86,7 +93,7 @@ class PollView extends React.Component {
         	<Grid>
                 <Row>
                     <Col xs={6} xsOffset={3}>
-                        <span className="error-message">{this.state.error ? this.state.error : null}</span>
+                        <span className={this.state.error ? "error-message" : "message"}>{this.state.error ? this.state.error : this.state.message}</span>
                     </Col>
                 </Row>
         		<Row className="poll-view-container">

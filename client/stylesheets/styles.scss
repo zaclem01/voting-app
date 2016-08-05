@@ -12,6 +12,16 @@ $secondary-text-color: #727272;
 /*
 ========== General ==========
 */
+.error-message {
+	color: red;
+	font-weight: bold;
+}
+
+.message {
+	color: green;
+	font-weight: bold;
+}
+
 .panel-default {
 	.panel-heading {
 		background: $primary-color;
@@ -257,11 +267,6 @@ $view-width: 100%;
 /*
 ========== SignIn/SignUp Components ==========
 */
-.error-message {
-	color: red;
-	font-weight: bold;
-}
-
 .signin-btn, .signup-btn {
 	background: $accent-color;
 	border: none;
